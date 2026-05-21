@@ -70,10 +70,14 @@
         .border-glow {
             border: 1px solid rgba(255, 79, 0, 0.25);
         }
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body class="bg-sand text-text-dark font-sans antialiased overflow-x-hidden" x-data="salesApp()">
 
+    <!-- Barra de Alerta Superior com temporizador de escassez adaptável -->
     <div class="bg-gradient-to-r from-apricot to-apricot-dark text-white text-center py-2.5 px-4 text-[10px] xs:text-xs font-semibold tracking-wide flex justify-center items-center flex-wrap gap-2 sticky top-0 z-50 shadow-md">
         <span class="inline-block w-2.5 h-2.5 rounded-full bg-white animate-ping flex-shrink-0"></span>
         <span class="tracking-wide text-white">ATENÇÃO: APROVEITE O DESCONTO DE LANÇAMENTO EXCLUSIVO:</span> 
@@ -82,8 +86,10 @@
         </span>
     </div>
 
+    <!-- Cabeçalho Principal Responsivo -->
     <header class="bg-sand/90 border-b border-indigo-950 py-3 sm:py-4 px-4 sm:px-6 md:px-12 sticky top-[38px] z-40 backdrop-blur-md">
         <div class="max-w-6xl mx-auto flex justify-between items-center gap-4">
+            <!-- Logotipo da Marca -->
             <div class="flex items-center gap-2 min-w-0">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-eucalyptus to-slate-violet flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -104,21 +110,23 @@
                 <span class="text-[10px] md:text-xs text-indigo-200 font-semibold"><span x-text="onlineUsers">184</span> pessoas lendo agora</span>
             </div>
 
+            <!-- Botão de Ação Rápida no Cabeçalho -->
             <a href="#oferta" class="bg-apricot hover:bg-apricot-dark text-white px-4 sm:px-5 py-2 rounded-full text-[10px] sm:text-xs font-bold tracking-wider uppercase transition duration-300 shadow-md hover:scale-105 transform flex-shrink-0 whitespace-nowrap">
                 Acessar Agora
             </a>
         </div>
     </header>
 
+    <!-- SECÇÃO HERO (Foco em mobile, alta legibilidade e sem risco de bloqueio no tráfego) -->
     <section id="heroSection" class="relative py-12 sm:py-20 md:py-28 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden rounded-3xl mt-4 bg-gradient-to-b from-indigo-950/20 via-slate-950 to-slate-950 border border-indigo-950">
         <!-- Canvas ativo e responsivo para visual interativo de fluxo de partículas -->
         <canvas id="neuroCanvas" class="absolute inset-0 w-full h-full object-cover z-0 opacity-40 pointer-events-none"></canvas>
         
         <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            <!-- Hero Esquerda: Headline Provocativa, Emocional e Altamente Conversiva -->
+            <!-- Hero Esquerda: Headlines Estratégicas e Indicadores de Escassez -->
             <div class="lg:col-span-7 space-y-4 sm:space-y-6 order-2 lg:order-1 text-center lg:text-left">
-                
+                <!-- Distintivo de Alerta sem infrações de regras de saúde -->
                 <div class="inline-flex items-center gap-2 bg-indigo-950/60 border border-indigo-800 rounded-full px-3 py-1.5 text-[11px] sm:text-xs text-slate-300 font-bold mx-auto lg:mx-0">
                     <span class="flex h-2 w-2 rounded-full bg-apricot animate-pulse"></span>
                     <span>SÍNDROME DO POTENCIAL DESPERDIÇADO</span>
@@ -132,7 +140,7 @@
                     Se você já ouviu que "é muito inteligente, só precisa de foco", mas sente que seu dia simplesmente não rende... o problema não é você. Descubra o método visual de autorregulação cognitiva desenhado especialmente para mentes inquietas e aceleradas.
                 </p>
 
-                <!-- Barra de Escassez em Tempo Real -->
+                <!-- Barra de Progresso / Escassez de Stock Dinâmica -->
                 <div class="max-w-md mx-auto lg:mx-0 bg-slate-900/80 backdrop-blur p-4 rounded-2xl border border-indigo-950 space-y-3 shadow-sm">
                     <div class="flex justify-between items-center text-xs font-bold text-slate-300">
                         <span>Apenas <span class="text-apricot font-black animate-pulse" x-text="vagasRestantes">23</span> licenças com desconto disponíveis hoje</span>
@@ -143,7 +151,7 @@
                     </div>
                 </div>
 
-                <!-- Chamada de Ação Altamente Convincente -->
+                <!-- Chamada de Ação e Garantia -->
                 <div class="space-y-4 pt-2">
                     <a href="#oferta" class="pulse-live w-full sm:w-auto inline-flex justify-center items-center text-center bg-gradient-to-r from-apricot to-apricot-dark text-white font-black text-base sm:text-lg px-8 py-4.5 rounded-xl transition duration-300 shadow-xl hover:scale-105 transform">
                         QUERO ORGANIZAR MINHA MENTE AGORA
@@ -192,6 +200,7 @@
         </div>
     </section>
 
+    <!-- TABELA COMPARATIVA (Nós contra os métodos rígidos tradicionais) -->
     <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto">
         <div class="text-center space-y-3 max-w-3xl mx-auto mb-10 sm:mb-16">
             <span class="text-xs uppercase tracking-widest text-white font-extrabold bg-gradient-to-r from-apricot to-apricot-dark px-3 py-1 rounded shadow-sm">POR QUE TUDO O QUE VOCÊ TENTOU FALHOU?</span>
@@ -245,6 +254,7 @@
         </div>
     </section>
 
+    <!-- IDENTIFICAÇÃO EMOCIONAL DAS DORES (Amplificação psicológica) -->
     <section class="py-12 sm:py-20 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-950 text-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-12">
             <div class="text-center space-y-4 max-w-2xl mx-auto">
@@ -282,6 +292,7 @@
         </div>
     </section>
 
+    <!-- VALUE STACK (Empilhamento agressivo de benefícios e ancoragem de preço) -->
     <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-12">
         <div class="text-center space-y-3 max-w-2xl mx-auto">
             <span class="text-xs uppercase tracking-widest text-white font-extrabold bg-gradient-to-r from-apricot to-apricot-dark px-3 py-1 rounded shadow-sm">VALOR ACUMULADO EXCLUSIVO</span>
@@ -339,7 +350,7 @@
             </div>
 
             <!-- Box de Preço Ultra Chamativo e Focado em Conversão (Direita) -->
-            <div class="lg:col-span-5 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-2 border-apricot shadow-2xl relative overflow-hidden">
+            <div id="oferta" class="lg:col-span-5 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-2 border-apricot shadow-2xl relative overflow-hidden">
                 <div class="absolute -top-12 -right-12 w-32 h-32 bg-apricot/20 rounded-full blur-xl"></div>
                 
                 <div class="space-y-4">
@@ -383,7 +394,8 @@
         </div>
     </section>
 
-    <section class="py-12 sm:py-20 bg-slate-950 border-y border-indigo-950/60">
+    <!-- PROVA SOCIAL / DEPOIMENTOS DE QUEM JÁ APLICOU -->
+    <section id="depoimentos" class="py-12 sm:py-20 bg-slate-950 border-y border-indigo-950/60">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
             <div class="text-center space-y-3 max-w-2xl mx-auto">
                 <span class="text-xs uppercase tracking-widest text-white font-bold bg-gradient-to-r from-apricot to-apricot-dark px-3 py-1 rounded shadow-sm">PROVA SOCIAL REAL</span>
@@ -454,17 +466,19 @@
         </div>
     </section>
 
+    <!-- GARANTIA BLINDADA (Mitigação total de riscos para o comprador) -->
     <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto text-center space-y-6">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-apricot/20 text-apricot mb-2">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
         </div>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Garantia Blindada de Satisfação Total</h2>
         <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            Se nos próximos 7 dias você sentir que o método não ajudou a trazer clareza e ritmo para a sua mente e rotina, basta enviar um e-mail. Nós devolvemos todo o seu dinheiro investido de forma rápida, sem burocracias ou perguntas desconfortáveis. O risco é todo nosso.
+            Se nos próximos 7 dias você sentir que o método não ajudou a trazer clareza e ritmo para a sua mente e rotina, basta nos enviar um e-mail. Nós devolvemos todo o seu dinheiro investido de forma rápida, sem burocracias ou perguntas desconfortáveis. O risco é inteiramente nosso.
         </p>
     </section>
 
-    <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto space-y-8" x-data="{ activeFaq: null }">
+    <!-- SEÇÃO FAQ (Sanfonas interativas de quebra de objeção) -->
+    <section id="faq" class="py-12 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto space-y-8" x-data="{ activeFaq: null }">
         <div class="text-center space-y-3">
             <span class="text-xs uppercase tracking-widest text-white font-bold bg-gradient-to-r from-apricot to-apricot-dark px-3 py-1 rounded shadow-sm">DÚVIDAS FREQUENTES</span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Perguntas Frequentes</h2>
@@ -511,12 +525,19 @@
                     <svg class="w-4 h-4 text-slate-violet transition-transform duration-300 flex-shrink-0" :class="activeFaq === 4 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
                 <div x-show="activeFaq === 4" x-collapse class="px-5 pb-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-indigo-950 pt-4">
-                    O pagamento é 100% único. Realiza a compra uma única vez de R$ 37,90 e tem acesso vitalício a todo o material principal, bônus e eventuais atualizações do guia sem qualquer taxa adicional.
+                    O pagamento é 100% único. Você realiza a compra uma única vez de R$ 37,90 e ganha acesso vitalício a todo o material principal, bônus e atualizações sem nenhuma cobrança adicional recorrente.
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- TOAST DE COPIA DE E-MAIL (Inovação para feedback imediato) -->
+    <div x-show="toastShow" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-4" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-indigo-950 border border-apricot rounded-full px-5 py-2.5 shadow-2xl text-xs text-white font-bold flex items-center gap-2 whitespace-nowrap" style="display: none;">
+        <span class="text-emerald-400">✓</span>
+        <span>E-mail de suporte copiado com sucesso!</span>
+    </div>
+
+    <!-- PROVA SOCIAL DINÂMICA (Flutuante de vendas simuladas) -->
     <div x-show="notificationShow" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 translate-y-4 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 translate-y-0 scale-100" x-transition:leave-end="opacity-0 translate-y-4 scale-95" class="fixed bottom-4 left-4 right-4 sm:right-auto sm:left-6 sm:bottom-6 z-50 bg-slate-900 border-2 border-apricot rounded-2xl p-4 shadow-2xl flex items-center gap-3 max-w-sm sm:max-w-xs" style="display: none;">
         <div class="w-9 h-9 rounded-full bg-apricot/20 text-apricot font-black flex items-center justify-center flex-shrink-0 font-bold text-xs shadow-inner animate-pulse">
             ✓
@@ -529,8 +550,10 @@
         </div>
     </div>
 
+    <!-- FOOTER FUNCIONAL E COMPATÍVEL COM REGRAS DE ADS -->
     <footer class="bg-gradient-to-b from-indigo-950 to-slate-950 text-white pt-12 sm:pt-16 pb-8 px-4 sm:px-6 border-t border-indigo-900/40">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 border-b border-white/10 pb-8 sm:pb-12">
+            
             <div class="md:col-span-5 space-y-4 text-center md:text-left">
                 <div class="flex items-center justify-center md:justify-start gap-2">
                     <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
@@ -543,20 +566,25 @@
                 </p>
             </div>
 
+            <!-- Navegação Rápida com Smooth Scroll real -->
             <div class="md:col-span-3 space-y-3 text-center md:text-left">
-                <h4 class="text-xs uppercase tracking-widest text-apricot font-bold">Navegação</h4>
+                <h4 class="text-xs uppercase tracking-widest text-apricot font-bold font-semibold">Navegação</h4>
                 <ul class="space-y-2 text-xs text-indigo-200">
                     <li><a href="#oferta" class="hover:text-apricot transition">Garantir Guia</a></li>
-                    <li><a href="#oferta" class="hover:text-apricot transition">Depoimentos</a></li>
-                    <li><a href="#oferta" class="hover:text-apricot transition">Perguntas Frequentes</a></li>
+                    <li><a href="#depoimentos" class="hover:text-apricot transition">Depoimentos</a></li>
+                    <li><a href="#faq" class="hover:text-apricot transition">Perguntas Frequentes</a></li>
                 </ul>
             </div>
 
+            <!-- Contato/Suporte Funcional Interativo -->
             <div class="md:col-span-4 space-y-3 text-center md:text-left">
-                <h4 class="text-xs uppercase tracking-widest text-apricot font-bold">Apoio e Contato</h4>
-                <p class="text-xs text-indigo-200">Dúvidas com o acesso? Envie um e-mail para:</p>
-                <a href="mailto:suporte@neuroflow.com.br" class="text-xs text-apricot font-bold hover:underline block">suporte@neuroflow.com.br</a>
-                <p class="text-[9px] text-slate-400">Atendimento de Segunda a Sexta das 9h às 18h.</p>
+                <h4 class="text-xs uppercase tracking-widest text-apricot font-bold font-semibold">Apoio e Contato</h4>
+                <p class="text-xs text-indigo-200">Dúvidas com o acesso? Copie ou envie um e-mail para:</p>
+                <button @click="copySupportEmail()" class="inline-flex items-center gap-1.5 text-xs text-apricot font-bold hover:underline bg-transparent border-none p-0 cursor-pointer focus:outline-none">
+                    <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                    suporte@neuroflow.com.br
+                </button>
+                <p class="text-[9px] text-slate-400 block pt-1">Atendimento de Segunda a Sexta das 9h às 18h.</p>
             </div>
         </div>
 
@@ -570,19 +598,63 @@
                 </p>
             </div>
 
+            <!-- Links de Rodapé Ativando Modais Funcionais de Compliance -->
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/10 pt-6 text-[10px] sm:text-xs text-indigo-200 text-center md:text-left">
                 <div>
                     &copy; <span x-text="new Date().getFullYear()">2026</span> NeuroFlow &amp; Cognitiva Lab. Todos os direitos reservados.
                 </div>
-                <div class="flex gap-4 flex-wrap justify-center">
-                    <a href="#oferta" class="hover:underline hover:text-apricot">Termos de Uso</a>
+                <div class="flex gap-4 flex-wrap justify-center font-medium">
+                    <button @click="termsModal = true" class="hover:underline hover:text-apricot cursor-pointer">Termos de Uso</button>
                     <span>&bull;</span>
-                    <a href="#oferta" class="hover:underline hover:text-apricot">Políticas de Privacidade</a>
+                    <button @click="privacyModal = true" class="hover:underline hover:text-apricot cursor-pointer">Políticas de Privacidade</button>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- MODAL 1: POLÍTICA DE PRIVACIDADE -->
+    <div x-show="privacyModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" style="display: none;">
+        <!-- Backdrop Backdrop -->
+        <div class="fixed inset-0 bg-black/85 backdrop-blur-sm" @click="privacyModal = false"></div>
+        <!-- Conteúdo do Modal -->
+        <div class="relative bg-sand-light border border-indigo-900 rounded-3xl p-6 sm:p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto z-10 text-slate-200" @click.stop>
+            <div class="flex justify-between items-center pb-4 border-b border-indigo-950 mb-4">
+                <h3 class="text-lg sm:text-xl font-bold text-white">Políticas de Privacidade</h3>
+                <button @click="privacyModal = false" class="text-slate-400 hover:text-apricot transition focus:outline-none p-1">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed text-left">
+                <p><strong>1. Coleta de Informações:</strong> Coletamos dados essenciais no momento da compra por meio de nossas plataformas parceiras de processamento de pagamento. Esses dados incluem nome, e-mail e informações cadastrais básicas necessárias para o faturamento e envio automatizado do material.</p>
+                <p><strong>2. Uso de Dados:</strong> O seu e-mail será utilizado estritamente para o envio do infoproduto adquirido, novidades de atualização do guia NeuroFlow ou comunicados importantes sobre o seu pedido. Nunca compartilhamos ou vendemos seus dados de contato para fins publicitários de terceiros.</p>
+                <p><strong>3. Pixel de Conversão e Cookies:</strong> Esta página utiliza ferramentas analíticas padrão de mercado (incluindo o Pixel do Meta/Facebook e APIs de conversão) para otimizar nossas campanhas publicitárias. Esses dados são anônimos e servem para entender o comportamento de navegação no site.</p>
+                <p><strong>4. Direitos e LGPD:</strong> Em total conformidade com a Lei Geral de Proteção de Dados (LGPD), você poderá solicitar a qualquer momento a exclusão permanente dos seus dados de nossa lista de clientes enviando um e-mail direto para o nosso canal de suporte ao cliente.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: TERMOS DE USO -->
+    <div x-show="termsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" style="display: none;">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-black/85 backdrop-blur-sm" @click="termsModal = false"></div>
+        <!-- Conteúdo do Modal -->
+        <div class="relative bg-sand-light border border-indigo-900 rounded-3xl p-6 sm:p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto z-10 text-slate-200" @click.stop>
+            <div class="flex justify-between items-center pb-4 border-b border-indigo-950 mb-4">
+                <h3 class="text-lg sm:text-xl font-bold text-white">Termos de Uso</h3>
+                <button @click="termsModal = false" class="text-slate-400 hover:text-apricot transition focus:outline-none p-1">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed text-left">
+                <p><strong>1. Licença de Uso Pessoal:</strong> Ao adquirir o guia NeuroFlow, você recebe uma licença única, pessoal e não comercializável para acessar e aplicar os conhecimentos deste infoproduto. A revenda, pirataria, rateio, redistribuição ou compartilhamento não autorizado é crime e sofrerá as devidas sanções criminais vigentes.</p>
+                <p><strong>2. Limitações de Responsabilidade:</strong> O material contido no e-book é puramente educativo e estratégico no âmbito do desenvolvimento pessoal, rotina e autogestão. Não ofertamos promessas de curas ou tratamentos para qualquer transtorno ou distúrbio de cunho psicológico ou físico.</p>
+                <p><strong>3. Garantia de Reembolso:</strong> O prazo garantido por lei e estendido de forma integral para o comprador é de 7 (sete) dias corridos a contar da data de confirmação do pedido. O reembolso deve ser solicitado por e-mail ou diretamente na plataforma integradora de pagamentos.</p>
+                <p><strong>4. Modificações do Site:</strong> Reservamo-nos o direito de alterar ofertas, preços, pacotes bônus ou layout de nosso site sem necessidade de aviso prévio.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGICA DO ALPINJS EM SINTAXE OFICIAL COMPATÍVEL V3 -->
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('salesApp', () => ({
@@ -590,10 +662,17 @@
                 notificationName: '',
                 notificationTime: '',
                 
+                // Modais funcionais
+                privacyModal: false,
+                termsModal: false,
+                toastShow: false,
+                
+                // Contador regressivo
                 minutes: '14',
                 seconds: '59',
                 duration: 15 * 60,
                 
+                // Variáveis simuladas de urgência
                 vagasRestantes: 23,
                 progressBarPercent: 87,
                 onlineUsers: 184,
@@ -652,6 +731,22 @@
 
                     const nextCycle = Math.floor(Math.random() * (35000 - 18000 + 1) + 18000);
                     setTimeout(() => this.runSocialProofSimulation(), nextCycle);
+                },
+
+                // Função de cópia robusta para área de transferência com toast amigável
+                copySupportEmail() {
+                    const email = "suporte@neuroflow.com.br";
+                    const tempInput = document.createElement("input");
+                    tempInput.value = email;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(tempInput);
+                    
+                    this.toastShow = true;
+                    setTimeout(() => {
+                        this.toastShow = false;
+                    }, 3000);
                 }
             }));
         });
