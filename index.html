@@ -21,14 +21,14 @@
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
-                        eucalyptus: '#2C3E35',
-                        'eucalyptus-light': '#3A5246',
-                        'slate-violet': '#4A4E69',
-                        sand: '#F2E9E1',
-                        'sand-light': '#FAF6F2',
-                        apricot: '#E0A96D',
-                        'apricot-dark': '#C98F53',
-                        'text-dark': '#1E2824',
+                        eucalyptus: '#4F46E5', // Indigo Elétrico
+                        'eucalyptus-light': '#6366F1', // Violeta Vibrante
+                        'slate-violet': '#7C3AED', // Roxo Premium
+                        sand: '#F8FAFC', // Slate 50 (Fundo limpo de altíssimo contraste)
+                        'sand-light': '#FFFFFF', // Branco puro para cartões
+                        apricot: '#FF4F00', // Laranja Neon de Conversão
+                        'apricot-dark': '#E03E00', // Laranja Escuro
+                        'text-dark': '#0F172A', // Slate 900 (Contraste de leitura perfeito)
                     },
                     screens: {
                         'xs': '375px',
@@ -37,6 +37,7 @@
             }
         }
     </script>
+    
     <style>
         .faq-transition {
             transition: all 0.3s ease-out;
@@ -45,51 +46,54 @@
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #F2E9E1;
+            background: #F1F5F9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #2C3E35;
+            background: #6366F1;
             border-radius: 3px;
         }
         .pulse-live {
-            box-shadow: 0 0 0 0 rgba(224, 169, 109, 0.7);
+            box-shadow: 0 0 0 0 rgba(255, 79, 0, 0.7);
             animation: pulse 1.8s infinite cubic-bezier(0.66, 0, 0, 1);
         }
         @keyframes pulse {
             to {
-                box-shadow: 0 0 0 10px rgba(224, 169, 109, 0);
+                box-shadow: 0 0 0 12px rgba(255, 79, 0, 0);
             }
         }
         .text-glow {
-            text-shadow: 0 0 20px rgba(224, 169, 109, 0.2);
+            text-shadow: 0 0 20px rgba(255, 79, 0, 0.25);
+        }
+        .card-glow {
+            box-shadow: 0 10px 30px -5px rgba(99, 102, 241, 0.15);
         }
     </style>
 </head>
 <body class="bg-sand text-text-dark font-sans antialiased overflow-x-hidden" x-data="salesApp()">
 
-    <div class="bg-eucalyptus text-sand-light text-center py-2.5 px-4 text-[10px] xs:text-xs font-semibold tracking-wide flex justify-center items-center flex-wrap gap-2 sticky top-0 z-50 shadow-md">
-        <span class="inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-ping flex-shrink-0"></span>
+    <div class="bg-gradient-to-r from-apricot to-apricot-dark text-white text-center py-2.5 px-4 text-[10px] xs:text-xs font-semibold tracking-wide flex justify-center items-center flex-wrap gap-2 sticky top-0 z-50 shadow-md">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-white animate-ping flex-shrink-0"></span>
         <span class="tracking-wide">ATENÇÃO: APROVEITE O DESCONTO DE LANÇAMENTO EXCLUSIVO:</span> 
-        <span class="text-apricot font-mono font-bold bg-black/20 px-2 py-0.5 rounded whitespace-nowrap">
+        <span class="text-white font-mono font-bold bg-black/20 px-2 py-0.5 rounded whitespace-nowrap">
             <span x-text="minutes">14</span>:<span x-text="seconds">59</span>
         </span>
     </div>
 
-    <header class="bg-sand border-b border-slate-violet/10 py-3 sm:py-4 px-4 sm:px-6 md:px-12 sticky top-[38px] z-40 backdrop-blur-md bg-opacity-95">
+    <header class="bg-white/90 border-b border-indigo-100 py-3 sm:py-4 px-4 sm:px-6 md:px-12 sticky top-[38px] z-40 backdrop-blur-md">
         <div class="max-w-6xl mx-auto flex justify-between items-center gap-4">
             <div class="flex items-center gap-2 min-w-0">
-                <div class="w-8 h-8 rounded-lg bg-eucalyptus flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-apricot" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-eucalyptus to-slate-violet flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                 </div>
                 <div class="truncate">
-                    <span class="text-lg sm:text-xl font-bold text-eucalyptus tracking-tight block">Neuro<span class="text-apricot-dark">Flow</span></span>
+                    <span class="text-lg sm:text-xl font-bold text-eucalyptus tracking-tight block">Neuro<span class="text-apricot">Flow</span></span>
                 </div>
             </div>
 
             <!-- Widget Dinâmico de Utilizadores Online (Poderoso Gatilho de Prova Social) -->
-            <div class="hidden sm:flex items-center gap-2 bg-eucalyptus/5 px-3 py-1.5 rounded-full border border-eucalyptus/10">
+            <div class="hidden sm:flex items-center gap-2 bg-indigo-50 px-3 py-1.5 rounded-full border border-indigo-100">
                 <span class="relative flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -97,46 +101,48 @@
                 <span class="text-[10px] md:text-xs text-eucalyptus font-semibold"><span x-text="onlineUsers">184</span> leitores online</span>
             </div>
 
-            <a href="#oferta" class="bg-apricot hover:bg-apricot-dark text-eucalyptus-light px-4 sm:px-5 py-2 rounded-full text-[10px] sm:text-xs font-bold tracking-wider uppercase transition duration-300 shadow-md hover:scale-105 transform flex-shrink-0 whitespace-nowrap">
+            <a href="#oferta" class="bg-apricot hover:bg-apricot-dark text-white px-4 sm:px-5 py-2 rounded-full text-[10px] sm:text-xs font-bold tracking-wider uppercase transition duration-300 shadow-md hover:scale-105 transform flex-shrink-0 whitespace-nowrap">
                 Aceder Agora
             </a>
         </div>
     </header>
 
-    <section id="heroSection" class="relative py-12 sm:py-20 md:py-28 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden rounded-3xl mt-4 bg-sand-light border border-slate-violet/5">
-        <canvas id="neuroCanvas" class="absolute inset-0 w-full h-full object-cover z-0 opacity-30 pointer-events-none"></canvas>
+    <section id="heroSection" class="relative py-12 sm:py-20 md:py-28 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden rounded-3xl mt-4 bg-gradient-to-b from-indigo-50/50 via-white to-white border border-indigo-100">
+        <!-- Canvas ativo e responsivo para visual interativo de fluxo de partículas -->
+        <canvas id="neuroCanvas" class="absolute inset-0 w-full h-full object-cover z-0 opacity-40 pointer-events-none"></canvas>
         
         <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             <!-- Hero Esquerda: Headline Provocativa, Emocional e Altamente Conversiva -->
             <div class="lg:col-span-7 space-y-4 sm:space-y-6 order-2 lg:order-1 text-center lg:text-left">
                 
-                <div class="inline-flex items-center gap-2 bg-apricot/20 border border-apricot-dark/20 rounded-full px-3 py-1.5 text-[11px] sm:text-xs text-eucalyptus font-bold mx-auto lg:mx-0">
-                    <span class="flex h-2 w-2 rounded-full bg-apricot-dark animate-pulse"></span>
+                <div class="inline-flex items-center gap-2 bg-indigo-100 border border-indigo-200 rounded-full px-3 py-1.5 text-[11px] sm:text-xs text-slate-violet font-bold mx-auto lg:mx-0">
+                    <span class="flex h-2 w-2 rounded-full bg-apricot animate-pulse"></span>
                     <span>SÍNDROME DO POTENCIAL DESPERDIÇADO</span>
                 </div>
 
-                <h1 class="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold text-eucalyptus leading-[1.1] tracking-tight">
-                    O seu cérebro <span class="bg-apricot/30 px-1 rounded text-glow">não é preguiçoso</span>. Ele só tem 1000 abas abertas ao mesmo tempo.
+                <h1 class="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-dark leading-[1.1] tracking-tight">
+                    O seu cérebro <span class="bg-apricot/20 px-1 rounded text-glow text-apricot-dark">não é preguiçoso</span>. Ele só tem 1000 abas abertas ao mesmo tempo.
                 </h1>
 
                 <p class="text-sm sm:text-base md:text-lg lg:text-xl text-slate-violet leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
                     Se já lhe disseram que "é muito inteligente, só precisa de se focar", mas o seu dia simplesmente não rende... o problema não está em si. Descubra o método visual de autorregulação cognitiva desenhado especialmente para mentes inquietas e aceleradas.
                 </p>
 
-                <div class="max-w-md mx-auto lg:mx-0 bg-white/60 backdrop-blur p-4 rounded-2xl border border-eucalyptus/10 space-y-3">
-                    <div class="flex justify-between items-center text-xs font-bold text-eucalyptus">
-                        <span>Apenas <span class="text-apricot-dark font-black" x-text="vagasRestantes">23</span> licenças com desconto disponíveis hoje</span>
-                        <span x-text="progressBarPercent + '%'">87%</span>
+                <!-- Barra de Escassez em Tempo Real -->
+                <div class="max-w-md mx-auto lg:mx-0 bg-white/80 backdrop-blur p-4 rounded-2xl border border-indigo-100 space-y-3 shadow-sm">
+                    <div class="flex justify-between items-center text-xs font-bold text-text-dark">
+                        <span>Apenas <span class="text-apricot-dark font-black animate-pulse" x-text="vagasRestantes">23</span> licenças com desconto disponíveis hoje</span>
+                        <span class="text-indigo-600" x-text="progressBarPercent + '%'">87%</span>
                     </div>
-                    <div class="w-full bg-sand rounded-full h-2.5 overflow-hidden">
-                        <div class="bg-apricot h-full transition-all duration-1000" :style="'width: ' + progressBarPercent + '%'"></div>
+                    <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                        <div class="bg-gradient-to-r from-eucalyptus to-slate-violet h-full transition-all duration-1000" :style="'width: ' + progressBarPercent + '%'"></div>
                     </div>
                 </div>
 
                 <!-- Chamada de Ação Altamente Convincente -->
                 <div class="space-y-4 pt-2">
-                    <a href="#oferta" class="pulse-live w-full sm:w-auto inline-flex justify-center items-center text-center bg-apricot hover:bg-apricot-dark text-eucalyptus font-black text-base sm:text-lg px-8 py-4.5 rounded-xl transition duration-300 shadow-xl hover:scale-105 transform">
+                    <a href="#oferta" class="pulse-live w-full sm:w-auto inline-flex justify-center items-center text-center bg-gradient-to-r from-apricot to-apricot-dark text-white font-black text-base sm:text-lg px-8 py-4.5 rounded-xl transition duration-300 shadow-xl hover:scale-105 transform">
                         QUERO ORGANIZAR A MINHA MENTE AGORA
                     </a>
                     <div class="flex items-center justify-center lg:justify-start gap-2 text-[10px] sm:text-xs text-slate-violet font-semibold pl-1">
@@ -146,34 +152,34 @@
                 </div>
             </div>
 
-            <!-- Hero Direita: Mockup do Produto com Detalhes Visuais Tridimensionais -->
+            <!-- Hero Direita: Mockup do Produto com Detalhes Visuais Tridimensionais e Vibrantes -->
             <div class="lg:col-span-5 flex justify-center order-1 lg:order-2 w-full px-4 xs:px-8 sm:px-12 lg:px-0">
-                <div class="relative w-full max-w-[280px] xs:max-w-[310px] sm:max-w-[340px] aspect-[4/5] bg-eucalyptus rounded-3xl p-6 sm:p-8 shadow-2xl border-2 border-apricot/30 flex flex-col justify-between overflow-hidden transform hover:rotate-2 transition duration-500">
+                <div class="relative w-full max-w-[280px] xs:max-w-[310px] sm:max-w-[340px] aspect-[4/5] bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 rounded-3xl p-6 sm:p-8 shadow-2xl border-2 border-apricot/30 flex flex-col justify-between overflow-hidden transform hover:rotate-2 transition duration-500">
                     <div class="absolute -top-12 -right-12 w-48 h-48 bg-apricot/20 rounded-full blur-2xl"></div>
                     <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-slate-violet/30 rounded-full blur-2xl"></div>
                     
                     <div class="flex justify-between items-start z-10">
-                        <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-apricot font-extrabold bg-black/30 px-2.5 py-1 rounded">MÉTODO DIGITAL</span>
-                        <div class="w-6 h-6 rounded-full bg-apricot text-eucalyptus flex items-center justify-center shadow-lg">
+                        <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-apricot font-extrabold bg-black/30 px-2.5 py-1 rounded border border-apricot/30">MÉTODO DIGITAL</span>
+                        <div class="w-6 h-6 rounded-full bg-apricot text-white flex items-center justify-center shadow-lg">
                             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                         </div>
                     </div>
 
                     <div class="space-y-3 sm:space-y-4 z-10 py-6 sm:py-8">
                         <div class="h-[2px] w-14 bg-apricot"></div>
-                        <h2 class="text-3xl sm:text-5xl font-extrabold text-sand-light tracking-tight leading-none text-glow">
+                        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-none text-glow">
                             Neuro<br><span class="text-apricot">Flow</span>
                         </h2>
-                        <p class="text-[11px] sm:text-xs text-sand-light/80 font-semibold max-w-[180px] sm:max-w-[220px]">
+                        <p class="text-[11px] sm:text-xs text-slate-200 font-semibold max-w-[180px] sm:max-w-[220px]">
                             O Guia Prático de Autorregulação Cognitiva e Foco Orgânico para Mentes Inquietas.
                         </p>
                     </div>
 
-                    <div class="flex justify-between items-center z-10 pt-4 border-t border-sand/20">
-                        <div class="text-[8px] sm:text-[9px] text-sand/60 tracking-wider font-bold">
+                    <div class="flex justify-between items-center z-10 pt-4 border-t border-white/10">
+                        <div class="text-[8px] sm:text-[9px] text-white/50 tracking-wider font-bold">
                             COGNITIVA LAB
                         </div>
-                        <div class="text-[9px] sm:text-[10px] font-black text-eucalyptus bg-apricot uppercase tracking-wide px-2.5 py-0.5 rounded shadow">
+                        <div class="text-[9px] sm:text-[10px] font-black text-white bg-apricot uppercase tracking-wide px-2.5 py-0.5 rounded shadow">
                             ★ 4.9/5
                         </div>
                     </div>
@@ -185,27 +191,27 @@
 
     <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto">
         <div class="text-center space-y-3 max-w-3xl mx-auto mb-10 sm:mb-16">
-            <span class="text-xs uppercase tracking-widest text-apricot-dark font-extrabold bg-apricot/15 px-3 py-1 rounded">PORQUE É QUE TUDO O QUE TENTOU FALHOU?</span>
-            <h2 class="text-2xl sm:text-4xl font-extrabold text-eucalyptus leading-tight">A diferença entre forçar rotinas rígidas e fluir de forma inteligente</h2>
+            <span class="text-xs uppercase tracking-widest text-white font-extrabold bg-gradient-to-r from-apricot to-apricot-dark px-3 py-1 rounded shadow-sm">PORQUE É QUE TUDO O QUE TENTOU FALHOU?</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-text-dark leading-tight">A diferença entre forçar rotinas rígidas e fluir de forma inteligente</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-0 md:divide-x md:divide-slate-violet/15 bg-sand-light rounded-3xl border border-slate-violet/10 overflow-hidden shadow-lg">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-0 md:divide-x md:divide-indigo-100 bg-white rounded-3xl border border-indigo-100 overflow-hidden shadow-xl card-glow">
             <!-- Lado Eles (Sistemas Rígidos) -->
             <div class="p-6 sm:p-10 space-y-6">
                 <div class="flex items-center gap-3">
                     <span class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold">✕</span>
-                    <h3 class="text-lg sm:text-xl font-bold text-slate-violet">Métodos Rígidos Tradicionais</h3>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-700">Métodos Rígidos Tradicionais</h3>
                 </div>
                 <ul class="space-y-4 text-xs sm:text-sm">
-                    <li class="flex items-start gap-2 text-slate-violet/80">
+                    <li class="flex items-start gap-2 text-slate-600">
                         <span class="text-red-500 font-bold mt-0.5">▪</span>
                         <span><strong>Agendas mecânicas e horários travados:</strong> O cérebro inquieto rejeita o tédio das rotinas estáticas em menos de 3 dias.</span>
                     </li>
-                    <li class="flex items-start gap-2 text-slate-violet/80">
+                    <li class="flex items-start gap-2 text-slate-600">
                         <span class="text-red-500 font-bold mt-0.5">▪</span>
                         <span><strong>Dependência de força de vontade:</strong> Tentar empurrar tarefas na marra gera exaustão mental e bloqueios ainda maiores.</span>
                     </li>
-                    <li class="flex items-start gap-2 text-slate-violet/80">
+                    <li class="flex items-start gap-2 text-slate-600">
                         <span class="text-red-500 font-bold mt-0.5">▪</span>
                         <span><strong>Sistemas de organização complexos:</strong> Aplicações com 50 funções diferentes que criam ainda mais dispersão e ansiedade.</span>
                     </li>
@@ -213,12 +219,12 @@
             </div>
 
             <!-- Lado Nós (NeuroFlow) -->
-            <div class="p-6 sm:p-10 bg-eucalyptus text-sand-light space-y-6">
+            <div class="p-6 sm:p-10 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white space-y-6">
                 <div class="flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-full bg-apricot text-eucalyptus flex items-center justify-center font-bold">✓</span>
+                    <span class="w-8 h-8 rounded-full bg-apricot text-white flex items-center justify-center font-bold shadow-lg">✓</span>
                     <h3 class="text-lg sm:text-xl font-bold text-apricot">O Protocolo NeuroFlow</h3>
                 </div>
-                <ul class="space-y-4 text-xs sm:text-sm text-sand/90">
+                <ul class="space-y-4 text-xs sm:text-sm text-indigo-100">
                     <li class="flex items-start gap-2">
                         <span class="text-apricot font-bold mt-0.5">▪</span>
                         <span><strong>Sistemas Visuais Anticaos:</strong> Ferramentas na parede ou cartões visuais rápidos que eliminam a sobrecarga de memória de trabalho.</span>
@@ -236,36 +242,36 @@
         </div>
     </section>
 
-    <section class="py-12 sm:py-20 bg-eucalyptus text-sand-light">
+    <section class="py-12 sm:py-20 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-950 text-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-12">
             <div class="text-center space-y-4 max-w-2xl mx-auto">
-                <span class="text-xs uppercase tracking-widest text-apricot font-bold">IDENTIFIQUE-SE</span>
+                <span class="text-xs uppercase tracking-widest text-apricot font-bold bg-white/10 border border-white/10 px-3 py-1 rounded">IDENTIFIQUE-SE</span>
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">O ciclo vicioso do cansaço mental diário</h2>
-                <p class="text-sm text-sand/70">Mentes aceleradas cansam-se mais rápido não pelo esforço físico, mas pelo atrito constante entre o pensamento e a ação.</p>
+                <p class="text-sm text-indigo-200">Mentes aceleradas cansam-se mais rápido não pelo esforço físico, mas pelo atrito constante entre o pensamento e a ação.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                 <!-- Dor 1 -->
-                <div class="bg-sand/5 border border-sand/10 p-6 rounded-2xl space-y-3">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-apricot/30 transition duration-300">
                     <span class="text-apricot text-3xl font-extrabold block">01</span>
-                    <h3 class="font-bold text-base sm:text-lg">Paralisia de Iniciação</h3>
-                    <p class="text-sand/75 text-xs sm:text-sm leading-relaxed">
+                    <h3 class="font-bold text-base sm:text-lg text-white">Paralisia de Iniciação</h3>
+                    <p class="text-indigo-200 text-xs sm:text-sm leading-relaxed">
                         Tem uma tarefa crucial para fazer, mas a quantidade de passos necessários cria uma barreira invisível tão pesada que acaba a fazer qualquer outra coisa, menos o que devia.
                     </p>
                 </div>
                 <!-- Dor 2 -->
-                <div class="bg-sand/5 border border-sand/10 p-6 rounded-2xl space-y-3">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-apricot/30 transition duration-300">
                     <span class="text-apricot text-3xl font-extrabold block">02</span>
-                    <h3 class="font-bold text-base sm:text-lg">Compulsão por Novidades</h3>
-                    <p class="text-sand/75 text-xs sm:text-sm leading-relaxed">
+                    <h3 class="font-bold text-base sm:text-lg text-white">Compulsão por Novidades</h3>
+                    <p class="text-indigo-200 text-xs sm:text-sm leading-relaxed">
                         Compra novas ferramentas de organização, instala novas aplicações de notas, sente um pico de energia e, ao fim de 5 dias, tudo vai parar ao cemitério de projetos inacabados.
                     </p>
                 </div>
                 <!-- Dor 3 -->
-                <div class="bg-sand/5 border border-sand/10 p-6 rounded-2xl space-y-3">
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3 hover:border-apricot/30 transition duration-300">
                     <span class="text-apricot text-3xl font-extrabold block">03</span>
-                    <h3 class="font-bold text-base sm:text-lg">A Ressaca da Procrastinação</h3>
-                    <p class="text-sand/75 text-xs sm:text-sm leading-relaxed">
+                    <h3 class="font-bold text-base sm:text-lg text-white">A Ressaca da Procrastinação</h3>
+                    <p class="text-indigo-200 text-xs sm:text-sm leading-relaxed">
                         O dia termina, o seu corpo está exausto de tanto pensar, mas a lista de afazeres está idêntica. A culpa instala-se e a sua autoestima cognitiva desce mais um degrau.
                     </p>
                 </div>
@@ -275,8 +281,8 @@
 
     <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-12">
         <div class="text-center space-y-3 max-w-2xl mx-auto">
-            <span class="text-xs uppercase tracking-widest text-apricot-dark font-extrabold bg-apricot/15 px-3 py-1 rounded">VALOR ACUMULADO EXCLUSIVO</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-eucalyptus leading-tight">O que está prestes a garantir hoje:</h2>
+            <span class="text-xs uppercase tracking-widest text-white font-extrabold bg-gradient-to-r from-apricot to-apricot-dark px-3 py-1 rounded shadow-sm">VALOR ACUMULADO EXCLUSIVO</span>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-text-dark leading-tight">O que está prestes a garantir hoje:</h2>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
@@ -284,81 +290,82 @@
             <div class="lg:col-span-7 space-y-4">
                 
                 <!-- Item Principal -->
-                <div class="bg-sand-light border border-slate-violet/10 rounded-2xl p-5 flex items-start gap-4 shadow-sm">
-                    <div class="p-3 bg-eucalyptus text-apricot rounded-xl flex-shrink-0">
+                <div class="bg-white border border-indigo-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm hover:shadow-md transition">
+                    <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl flex-shrink-0">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     </div>
                     <div class="flex-grow min-w-0">
                         <div class="flex justify-between items-start gap-2">
-                            <h4 class="font-bold text-eucalyptus text-sm sm:text-base truncate">E-book Oficial NeuroFlow</h4>
-                            <span class="text-xs text-slate-violet line-through font-semibold whitespace-nowrap">Valor: 47,00 €</span>
+                            <h4 class="font-bold text-text-dark text-sm sm:text-base truncate">E-book Oficial NeuroFlow</h4>
+                            <span class="text-xs text-slate-400 line-through font-semibold whitespace-nowrap">Valor: 47,00 €</span>
                         </div>
-                        <p class="text-slate-violet text-xs sm:text-sm mt-1 leading-relaxed">Método completo de autorregulação e rotina visual sem complicação para mentes aceleradas.</p>
+                        <p class="text-slate-500 text-xs sm:text-sm mt-1 leading-relaxed">Método completo de autorregulação e rotina visual sem complicação para mentes aceleradas.</p>
                     </div>
                 </div>
 
                 <!-- Bónus 1 -->
-                <div class="bg-sand-light border-2 border-apricot/30 rounded-2xl p-5 flex items-start gap-4 shadow-md relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-apricot text-eucalyptus text-[8px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-wider">OFERTA</div>
-                    <div class="p-3 bg-apricot text-eucalyptus rounded-xl flex-shrink-0">
+                <div class="bg-white border-2 border-indigo-500/30 rounded-2xl p-5 flex items-start gap-4 shadow-md relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-apricot text-white text-[8px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-wider">OFERTA</div>
+                    <div class="p-3 bg-apricot/10 text-apricot rounded-xl flex-shrink-0">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                     <div class="flex-grow min-w-0">
                         <div class="flex justify-between items-start gap-2">
-                            <h4 class="font-bold text-eucalyptus text-sm sm:text-base truncate">BÓNUS 1: Manual do Foco Imediato</h4>
-                            <span class="text-xs text-slate-violet line-through font-semibold whitespace-nowrap">Valor: 29,90 €</span>
+                            <h4 class="font-bold text-text-dark text-sm sm:text-base truncate">BÓNUS 1: Manual do Foco Imediato</h4>
+                            <span class="text-xs text-slate-400 line-through font-semibold whitespace-nowrap">Valor: 29,90 €</span>
                         </div>
-                        <p class="text-slate-violet text-xs sm:text-sm mt-1 leading-relaxed">O checklist passo a passo de resgate de atenção para quando trava numa tarefa importante.</p>
+                        <p class="text-slate-500 text-xs sm:text-sm mt-1 leading-relaxed">O checklist passo a passo de resgate de atenção para quando trava numa tarefa importante.</p>
                     </div>
                 </div>
 
                 <!-- Bónus 2 -->
-                <div class="bg-sand-light border-2 border-apricot/30 rounded-2xl p-5 flex items-start gap-4 shadow-md relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-apricot text-eucalyptus text-[8px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-wider">OFERTA</div>
-                    <div class="p-3 bg-apricot text-eucalyptus rounded-xl flex-shrink-0">
+                <div class="bg-white border-2 border-indigo-500/30 rounded-2xl p-5 flex items-start gap-4 shadow-md relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-apricot text-white text-[8px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-wider">OFERTA</div>
+                    <div class="p-3 bg-apricot/10 text-apricot rounded-xl flex-shrink-0">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 00-4-4H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v8m-6 0h6"></path></svg>
                     </div>
                     <div class="flex-grow min-w-0">
                         <div class="flex justify-between items-start gap-2">
-                            <h4 class="font-bold text-eucalyptus text-sm sm:text-base truncate">BÓNUS 2: Templates de Planeamento Adaptativo</h4>
-                            <span class="text-xs text-slate-violet line-through font-semibold whitespace-nowrap">Valor: 19,90 €</span>
+                            <h4 class="font-bold text-text-dark text-sm sm:text-base truncate">BÓNUS 2: Templates de Planeamento Adaptativo</h4>
+                            <span class="text-xs text-slate-400 line-through font-semibold whitespace-nowrap">Valor: 19,90 €</span>
                         </div>
-                        <p class="text-slate-violet text-xs sm:text-sm mt-1 leading-relaxed">Mapas visuais rápidos para imprimir e usar imediatamente para organizar as suas semanas.</p>
+                        <p class="text-slate-500 text-xs sm:text-sm mt-1 leading-relaxed">Mapas visuais rápidos para imprimir e usar imediatamente para organizar as suas semanas.</p>
                     </div>
                 </div>
 
             </div>
 
-            <div class="lg:col-span-5 bg-eucalyptus text-sand-light rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-2 border-apricot shadow-2xl relative overflow-hidden">
-                <div class="absolute -top-12 -right-12 w-32 h-32 bg-apricot/10 rounded-full blur-xl"></div>
+            <!-- Box de Preço Ultra Chamativo e Focado em Conversão (Direita) -->
+            <div class="lg:col-span-5 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-2 border-apricot shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-12 -right-12 w-32 h-32 bg-apricot/20 rounded-full blur-xl"></div>
                 
                 <div class="space-y-4">
-                    <span class="bg-apricot text-eucalyptus text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider block w-max">VALOR PROMOCIONAL EXCLUSIVO</span>
-                    <h3 class="text-xl sm:text-2xl font-black text-sand-light tracking-tight">O Fim das Frustrações Diárias</h3>
+                    <span class="bg-apricot text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider block w-max">VALOR PROMOCIONAL EXCLUSIVO</span>
+                    <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">O Fim das Frustrações Diárias</h3>
                     
                     <div class="space-y-1">
-                        <p class="text-xs text-sand/60">Somando o guia principal e os bónus:</p>
-                        <p class="text-lg text-sand/60 line-through">Valor Total: 96,80 €</p>
+                        <p class="text-xs text-slate-300">Somando o guia principal e os bónus:</p>
+                        <p class="text-lg text-slate-400 line-through">Valor Total: 96,80 €</p>
                     </div>
 
-                    <div class="border-t border-sand/10 pt-4 space-y-1">
+                    <div class="border-t border-white/10 pt-4 space-y-1">
                         <p class="text-[10px] sm:text-xs text-apricot font-bold uppercase tracking-wider">Garanta tudo hoje por apenas:</p>
                         <div class="flex items-baseline gap-1">
-                            <span class="text-2xl font-semibold text-sand-light">Por </span>
-                            <span class="text-4xl sm:text-5xl font-black text-apricot">37,90 €</span>
+                            <span class="text-2xl font-semibold text-white">Por </span>
+                            <span class="text-4xl sm:text-5xl font-black text-apricot text-glow animate-pulse">37,90 €</span>
                         </div>
-                        <p class="text-[9px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-bold inline-block">POUPE 58,90 € IMEDIATAMENTE</p>
+                        <p class="text-[9px] text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full font-bold inline-block border border-emerald-400/20">POUPE 58,90 € IMEDIATAMENTE</p>
                     </div>
 
-                    <div class="space-y-3 pt-4 border-t border-sand/10">
-                        <a href="https://pay.exemplo.com.br/neuroflow" class="pulse-live w-full inline-flex justify-center items-center text-center bg-apricot hover:bg-apricot-dark text-eucalyptus font-black text-base py-4 rounded-xl transition duration-300 shadow-lg hover:scale-[1.02] transform">
+                    <div class="space-y-3 pt-4 border-t border-white/10">
+                        <a href="https://pay.exemplo.com.br/neuroflow" class="pulse-live w-full inline-flex justify-center items-center text-center bg-gradient-to-r from-apricot to-apricot-dark text-white font-black text-base py-4 rounded-xl transition duration-300 shadow-lg hover:scale-[1.02] transform">
                             QUERO O MEU ACESSO AGORA
                         </a>
-                        <p class="text-[10px] text-center text-sand/60">Pagamento único • Sem mensalidades ou taxas ocultas</p>
+                        <p class="text-[10px] text-center text-slate-300">Pagamento único • Sem mensalidades ou taxas ocultas</p>
                     </div>
                 </div>
 
-                <div class="flex justify-center items-center gap-4 pt-6 border-t border-sand/10 mt-6 text-[10px] text-sand/60 font-semibold">
+                <div class="flex justify-center items-center gap-4 pt-6 border-t border-white/10 mt-6 text-[10px] text-slate-300 font-semibold">
                     <span class="flex items-center gap-1">
                         <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                         Seguro
@@ -373,70 +380,70 @@
         </div>
     </section>
 
-    <section class="py-12 sm:py-20 bg-sand-light border-y border-slate-violet/10">
+    <section class="py-12 sm:py-20 bg-indigo-50 border-y border-indigo-100">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
             <div class="text-center space-y-3 max-w-2xl mx-auto">
-                <span class="text-xs uppercase tracking-widest text-apricot-dark font-bold">PROVA SOCIAL REAL</span>
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-eucalyptus leading-tight">Quem já aplica o método:</h2>
+                <span class="text-xs uppercase tracking-widest text-white font-bold bg-gradient-to-r from-apricot to-apricot-dark px-3 py-1 rounded shadow-sm">PROVA SOCIAL REAL</span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-text-dark leading-tight">Quem já aplica o método:</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                 <!-- Depoimento 1 -->
-                <div class="bg-sand border border-slate-violet/10 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                <div class="bg-white border border-indigo-100 rounded-2xl p-6 shadow-md card-glow flex flex-col justify-between">
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center pb-2 border-b border-slate-violet/5">
-                            <span class="text-xs text-slate-violet font-semibold">@tiago.developer</span>
+                        <div class="flex justify-between items-center pb-2 border-b border-indigo-50 animate-pulse">
+                            <span class="text-xs text-indigo-600 font-semibold">@tiago.developer</span>
                             <div class="flex text-apricot text-xs">★★★★★</div>
                         </div>
                         <p class="text-xs sm:text-sm text-text-dark italic leading-relaxed">
                             "A minha secretária estava sempre cheia de papéis e abas de navegador. O NeuroFlow ajudou-me a desenhar sistemas que de facto funcionam com a minha cabeça. <strong>Consigo manter o foco nas tarefas difíceis</strong> sem adiar dias inteiros."
                         </p>
                     </div>
-                    <div class="flex items-center gap-3 pt-4 border-t border-slate-violet/5 mt-4">
-                        <div class="w-8 h-8 rounded-full bg-slate-violet text-sand-light font-bold flex items-center justify-center text-xs">TS</div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-indigo-50 mt-4">
+                        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">TS</div>
                         <div>
-                            <h4 class="font-bold text-xs text-eucalyptus">Tiago Soares</h4>
-                            <span class="text-[10px] text-slate-violet block">Engenheiro de Software</span>
+                            <h4 class="font-bold text-xs text-text-dark">Tiago Soares</h4>
+                            <span class="text-[10px] text-slate-400 block">Engenheiro de Software</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Depoimento 2 -->
-                <div class="bg-sand border border-slate-violet/10 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                <div class="bg-white border border-indigo-100 rounded-2xl p-6 shadow-md card-glow flex flex-col justify-between">
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center pb-2 border-b border-slate-violet/5">
-                            <span class="text-xs text-slate-violet font-semibold">@claudia_macedo</span>
+                        <div class="flex justify-between items-center pb-2 border-b border-indigo-50">
+                            <span class="text-xs text-indigo-600 font-semibold">@claudia_macedo</span>
                             <div class="flex text-apricot text-xs">★★★★★</div>
                         </div>
                         <p class="text-xs sm:text-sm text-text-dark italic leading-relaxed">
                             "Sofria muito com a culpa de prometer resultados e não conseguir cumprir prazos devido à distração. <strong>O bónus do Foco Imediato é surreal de prático.</strong> Salvou as minhas entregas este mês."
                         </p>
                     </div>
-                    <div class="flex items-center gap-3 pt-4 border-t border-slate-violet/5 mt-4">
-                        <div class="w-8 h-8 rounded-full bg-eucalyptus text-sand-light font-bold flex items-center justify-center text-xs">CM</div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-indigo-50 mt-4">
+                        <div class="w-8 h-8 rounded-full bg-slate-violet text-white font-bold flex items-center justify-center text-xs">CM</div>
                         <div>
-                            <h4 class="font-bold text-xs text-eucalyptus">Cláudia Macedo</h4>
-                            <span class="text-[10px] text-slate-violet block">Copywriter Freelance</span>
+                            <h4 class="font-bold text-xs text-text-dark">Cláudia Macedo</h4>
+                            <span class="text-[10px] text-slate-400 block">Copywriter Freelance</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Depoimento 3 -->
-                <div class="bg-sand border border-slate-violet/10 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                <div class="bg-white border border-indigo-100 rounded-2xl p-6 shadow-md card-glow flex flex-col justify-between">
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center pb-2 border-b border-slate-violet/5">
-                            <span class="text-xs text-slate-violet font-semibold">@rodrigo_melo</span>
+                        <div class="flex justify-between items-center pb-2 border-b border-indigo-50">
+                            <span class="text-xs text-indigo-600 font-semibold">@rodrigo_melo</span>
                             <div class="flex text-apricot text-xs">★★★★★</div>
                         </div>
                         <p class="text-xs sm:text-sm text-text-dark italic leading-relaxed">
                             "A sensação de deitar ao fim do dia e ver que <strong>não procrastinei as tarefas simples</strong> foi indescritível. Não é um método rígido, é libertador poder agir ao meu ritmo."
                         </p>
                     </div>
-                    <div class="flex items-center gap-3 pt-4 border-t border-slate-violet/5 mt-4">
-                        <div class="w-8 h-8 rounded-full bg-apricot text-eucalyptus font-bold flex items-center justify-center text-xs">RM</div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-indigo-50 mt-4">
+                        <div class="w-8 h-8 rounded-full bg-apricot text-white font-bold flex items-center justify-center text-xs">RM</div>
                         <div>
-                            <h4 class="font-bold text-xs text-eucalyptus">Rodrigo Melo</h4>
-                            <span class="text-[10px] text-slate-violet block">Empreendedor Digital</span>
+                            <h4 class="font-bold text-xs text-text-dark">Rodrigo Melo</h4>
+                            <span class="text-[10px] text-slate-400 block">Empreendedor Digital</span>
                         </div>
                     </div>
                 </div>
@@ -445,97 +452,97 @@
     </section>
 
     <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto text-center space-y-6">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-apricot/20 text-apricot-dark mb-2">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-apricot/20 text-apricot mb-2">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-eucalyptus">Garantia Blindada de Satisfação Total</h2>
-        <p class="text-slate-violet text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-text-dark">Garantia Blindada de Satisfação Total</h2>
+        <p class="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
             Se nos próximos 7 dias sentir que o método não ajudou a trazer clareza para a sua mente e rotina, basta enviar um e-mail. Nós devolvemos todo o seu dinheiro investido de forma rápida, sem burocracias ou perguntas desconfortáveis. O risco é todo nosso.
         </p>
     </section>
 
     <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto space-y-8" x-data="{ activeFaq: null }">
         <div class="text-center space-y-3">
-            <span class="text-xs uppercase tracking-widest text-apricot-dark font-bold">DÚVIDAS FREQUENTES</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-eucalyptus">Perguntas Frequentes</h2>
+            <span class="text-xs uppercase tracking-widest text-white font-bold bg-gradient-to-r from-apricot to-apricot-dark px-3 py-1 rounded shadow-sm">DÚVIDAS FREQUENTES</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-text-dark">Perguntas Frequentes</h2>
         </div>
 
         <div class="space-y-3">
             <!-- Item 1 -->
-            <div class="bg-sand-light border border-slate-violet/10 rounded-xl overflow-hidden transition-all duration-300">
+            <div class="bg-white border border-indigo-100 rounded-xl overflow-hidden transition-all duration-300 shadow-sm">
                 <button @click="activeFaq = activeFaq === 1 ? null : 1" class="w-full text-left p-5 flex justify-between items-center focus:outline-none gap-4">
-                    <span class="font-bold text-eucalyptus text-xs sm:text-sm md:text-base">Como é feito o envio do material?</span>
+                    <span class="font-bold text-text-dark text-xs sm:text-sm md:text-base">Como é feito o envio do material?</span>
                     <svg class="w-4 h-4 text-slate-violet transition-transform duration-300 flex-shrink-0" :class="activeFaq === 1 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
-                <div x-show="activeFaq === 1" x-collapse class="px-5 pb-5 text-xs sm:text-sm text-slate-violet leading-relaxed border-t border-slate-violet/5 pt-4">
+                <div x-show="activeFaq === 1" x-collapse class="px-5 pb-5 text-xs sm:text-sm text-slate-500 leading-relaxed border-t border-indigo-50 pt-4">
                     O envio é 100% digital e automático. Logo que o pagamento é confirmado, recebe um e-mail com o link de download para descarregar o e-book principal e todos os bónus. Pagamentos por Cartão ou canais imediatos são aprovados e libertados em minutos.
                 </div>
             </div>
 
             <!-- Item 2 -->
-            <div class="bg-sand-light border border-slate-violet/10 rounded-xl overflow-hidden transition-all duration-300">
+            <div class="bg-white border border-indigo-100 rounded-xl overflow-hidden transition-all duration-300 shadow-sm">
                 <button @click="activeFaq = activeFaq === 2 ? null : 2" class="w-full text-left p-5 flex justify-between items-center focus:outline-none gap-4">
-                    <span class="font-bold text-eucalyptus text-xs sm:text-sm md:text-base">Preciso de um diagnóstico clínico para usar o guia?</span>
+                    <span class="font-bold text-text-dark text-xs sm:text-sm md:text-base">Preciso de um diagnóstico clínico para usar o guia?</span>
                     <svg class="w-4 h-4 text-slate-violet transition-transform duration-300 flex-shrink-0" :class="activeFaq === 2 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
-                <div x-show="activeFaq === 2" x-collapse class="px-5 pb-5 text-xs sm:text-sm text-slate-violet leading-relaxed border-t border-slate-violet/5 pt-4">
+                <div x-show="activeFaq === 2" x-collapse class="px-5 pb-5 text-xs sm:text-sm text-slate-500 leading-relaxed border-t border-indigo-50 pt-4">
                     Não. O NeuroFlow foi desenhado para todas as pessoas que sofrem com mentes aceleradas, dispersão, procrastinação crónica ou dificuldades em gerir uma rotina diária. São técnicas de comportamento e organização visual extremamente úteis tanto para quem tem diagnóstico como para quem simplesmente se sente sobrecarregado pela tecnologia no dia a dia.
                 </div>
             </div>
 
             <!-- Item 3 -->
-            <div class="bg-sand-light border border-slate-violet/10 rounded-xl overflow-hidden transition-all duration-300">
+            <div class="bg-white border border-indigo-100 rounded-xl overflow-hidden transition-all duration-300 shadow-sm">
                 <button @click="activeFaq = activeFaq === 3 ? null : 3" class="w-full text-left p-5 flex justify-between items-center focus:outline-none gap-4">
-                    <span class="font-bold text-eucalyptus text-xs sm:text-sm md:text-base">Tenho TDAH grave, este método funciona para mim?</span>
+                    <span class="font-bold text-text-dark text-xs sm:text-sm md:text-base">Tenho TDAH grave, este método funciona para mim?</span>
                     <svg class="w-4 h-4 text-slate-violet transition-transform duration-300 flex-shrink-0" :class="activeFaq === 3 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
-                <div x-show="activeFaq === 3" x-collapse class="px-5 pb-5 text-xs sm:text-sm text-slate-violet leading-relaxed border-t border-slate-violet/5 pt-4">
+                <div x-show="activeFaq === 3" x-collapse class="px-5 pb-5 text-xs sm:text-sm text-slate-500 leading-relaxed border-t border-indigo-50 pt-4">
                     Sim. O método foi concebido exatamente para contornar as falhas comuns dos métodos tradicionais que exigem rotinas robóticas e rigidez extrema. Os sistemas visuais e o foco direcionado trabalham com o ritmo natural de mentes altamente ativas, em vez de tentarem forçar comportamentos artificiais.
                 </div>
             </div>
 
             <!-- Item 4 -->
-            <div class="bg-sand-light border border-slate-violet/10 rounded-xl overflow-hidden transition-all duration-300">
+            <div class="bg-white border border-indigo-100 rounded-xl overflow-hidden transition-all duration-300 shadow-sm">
                 <button @click="activeFaq = activeFaq === 4 ? null : 4" class="w-full text-left p-5 flex justify-between items-center focus:outline-none gap-4">
-                    <span class="font-bold text-eucalyptus text-xs sm:text-sm md:text-base">O pagamento é único ou haverá mensalidades?</span>
+                    <span class="font-bold text-text-dark text-xs sm:text-sm md:text-base">O pagamento é único ou haverá mensalidades?</span>
                     <svg class="w-4 h-4 text-slate-violet transition-transform duration-300 flex-shrink-0" :class="activeFaq === 4 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
-                <div x-show="activeFaq === 4" x-collapse class="px-5 pb-5 text-xs sm:text-sm text-slate-violet leading-relaxed border-t border-slate-violet/5 pt-4">
+                <div x-show="activeFaq === 4" x-collapse class="px-5 pb-5 text-xs sm:text-sm text-slate-500 leading-relaxed border-t border-indigo-50 pt-4">
                     O pagamento é 100% único. Realiza a compra uma única vez de 37,90 € e tem acesso vitalício a todo o material principal, bónus e eventuais atualizações futuras do guia sem qualquer taxa adicional.
                 </div>
             </div>
         </div>
     </section>
 
-    <div x-show="notificationShow" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 translate-y-4 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 translate-y-0 scale-100" x-transition:leave-end="opacity-0 translate-y-4 scale-95" class="fixed bottom-4 left-4 right-4 sm:right-auto sm:left-6 sm:bottom-6 z-50 bg-sand-light border border-eucalyptus/10 rounded-2xl p-4 shadow-xl flex items-center gap-3 max-w-sm sm:max-w-xs" style="display: none;">
-        <div class="w-9 h-9 rounded-full bg-apricot/25 text-apricot-dark flex items-center justify-center flex-shrink-0 font-bold text-xs shadow-inner">
+    <div x-show="notificationShow" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 translate-y-4 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 translate-y-0 scale-100" x-transition:leave-end="opacity-0 translate-y-4 scale-95" class="fixed bottom-4 left-4 right-4 sm:right-auto sm:left-6 sm:bottom-6 z-50 bg-white border-2 border-apricot rounded-2xl p-4 shadow-2xl flex items-center gap-3 max-w-sm sm:max-w-xs" style="display: none;">
+        <div class="w-9 h-9 rounded-full bg-apricot/20 text-apricot font-black flex items-center justify-center flex-shrink-0 font-bold text-xs shadow-inner">
             ✓
         </div>
         <div class="min-w-0 flex-1">
-            <p class="text-xs text-slate-violet font-semibold leading-snug">
-                <span class="text-eucalyptus font-bold" x-text="notificationName">Rodrigo M.</span> acabou de garantir o NeuroFlow.
+            <p class="text-xs text-slate-700 font-semibold leading-snug">
+                <span class="text-indigo-600 font-bold" x-text="notificationName">Rodrigo M.</span> acabou de garantir o NeuroFlow.
             </p>
-            <span class="text-[9px] text-slate-violet/60 block mt-0.5" x-text="notificationTime">há 2 minutos</span>
+            <span class="text-[9px] text-slate-400 block mt-0.5" x-text="notificationTime">há 2 minutos</span>
         </div>
     </div>
 
-    <footer class="bg-eucalyptus text-sand-light pt-12 sm:pt-16 pb-8 px-4 sm:px-6 border-t border-sand/5">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 border-b border-sand/5 pb-8 sm:pb-12">
+    <footer class="bg-gradient-to-b from-indigo-950 to-slate-950 text-white pt-12 sm:pt-16 pb-8 px-4 sm:px-6 border-t border-indigo-900/40">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 border-b border-white/10 pb-8 sm:pb-12">
             <div class="md:col-span-5 space-y-4 text-center md:text-left">
                 <div class="flex items-center justify-center md:justify-start gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-sand/10 flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
                         <svg class="w-5 h-5 text-apricot" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
                     <span class="text-lg sm:text-xl font-bold tracking-tight">Neuro<span class="text-apricot">Flow</span></span>
                 </div>
-                <p class="text-xs text-sand/65 leading-relaxed max-w-sm mx-auto md:mx-0">
+                <p class="text-xs text-indigo-200 leading-relaxed max-w-sm mx-auto md:mx-0">
                     A NeuroFlow e a Cognitiva Lab desenvolvem metodologias e guias de organização comportamental focadas no alívio de sintomas de mentes ativas através de rotinas visuais adaptativas.
                 </p>
             </div>
 
             <div class="md:col-span-3 space-y-3 text-center md:text-left">
                 <h4 class="text-xs uppercase tracking-widest text-apricot font-bold">Navegação</h4>
-                <ul class="space-y-2 text-xs text-sand/75">
+                <ul class="space-y-2 text-xs text-indigo-200">
                     <li><a href="#oferta" class="hover:text-apricot transition">Garantir Guia</a></li>
                     <li><a href="#oferta" class="hover:text-apricot transition">Depoimentos</a></li>
                     <li><a href="#oferta" class="hover:text-apricot transition">Perguntas Frequentes</a></li>
@@ -544,14 +551,14 @@
 
             <div class="md:col-span-4 space-y-3 text-center md:text-left">
                 <h4 class="text-xs uppercase tracking-widest text-apricot font-bold">Apoio e Contacto</h4>
-                <p class="text-xs text-sand/75">Dúvidas com o acesso? Envie um e-mail para:</p>
+                <p class="text-xs text-indigo-200">Dúvidas com o acesso? Envie um e-mail para:</p>
                 <a href="mailto:suporte@neuroflow.com.br" class="text-xs text-apricot font-bold hover:underline block">suporte@neuroflow.com.br</a>
-                <p class="text-[9px] text-sand/50">Atendimento de Segunda a Sexta das 9h às 18h.</p>
+                <p class="text-[9px] text-slate-400">Atendimento de Segunda a Sexta das 9h às 18h.</p>
             </div>
         </div>
 
         <div class="max-w-6xl mx-auto pt-8 space-y-6">
-            <div class="text-[9px] sm:text-[10px] text-sand/40 leading-relaxed space-y-3 text-justify">
+            <div class="text-[9px] sm:text-[10px] text-slate-400 leading-relaxed space-y-3 text-justify">
                 <p>
                     <strong>Aviso Médico Legal Importante:</strong> O material presente neste guia destina-se única e exclusivamente a fins educacionais, de desenvolvimento pessoal e organização comportamental. Os sistemas, sugestões e métodos apresentados não representam de forma alguma aconselhamento médico, psicológico, psiquiátrico ou acompanhamento terapêutico. As metodologias sugeridas não substituem em momento algum consultas regulares com profissionais competentes licenciados nas respetivas especialidades para efeitos de diagnóstico, tratamento ou intervenção médica.
                 </p>
@@ -560,7 +567,7 @@
                 </p>
             </div>
 
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-sand/5 pt-6 text-[10px] sm:text-xs text-sand/65 text-center md:text-left">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/10 pt-6 text-[10px] sm:text-xs text-indigo-200 text-center md:text-left">
                 <div>
                     &copy; <span x-text="new Date().getFullYear()">2026</span> NeuroFlow &amp; Cognitiva Lab. Todos os direitos reservados.
                 </div>
@@ -613,10 +620,8 @@
                 startVagasSimulation() {
                     setInterval(() => {
                         if (this.vagasRestantes > 3) {
-                            // Diminui aleatoriamente 1 vaga de vez em quando
                             if (Math.random() > 0.6) {
                                 this.vagasRestantes--;
-                                // Sincroniza a barra de progresso
                                 this.progressBarPercent = Math.min(98, this.progressBarPercent + 1);
                             }
                         }
@@ -659,7 +664,8 @@
             
             const particles = [];
             const particleCount = Math.min(60, Math.floor((width * height) / 11000));
-            const colors = ['rgba(74, 78, 105, 0.35)', 'rgba(224, 169, 109, 0.45)', 'rgba(44, 62, 53, 0.2)'];
+            // Cores neon marcantes do novo tema para as partículas do canvas
+            const colors = ['rgba(99, 102, 241, 0.45)', 'rgba(255, 79, 0, 0.55)', 'rgba(124, 58, 237, 0.35)'];
             
             class Particle {
                 constructor() {
@@ -738,7 +744,7 @@
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(74, 78, 105, ${0.12 * (1 - dist / 110)})`;
+                            ctx.strokeStyle = `rgba(99, 102, 241, ${0.12 * (1 - dist / 110)})`;
                             ctx.lineWidth = 0.7;
                             ctx.stroke();
                         }
@@ -752,7 +758,7 @@
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(mouse.x, mouse.y);
-                            ctx.strokeStyle = `rgba(224, 169, 109, ${0.22 * (1 - dist / mouse.radius)})`;
+                            ctx.strokeStyle = `rgba(255, 79, 0, ${0.22 * (1 - dist / mouse.radius)})`;
                             ctx.lineWidth = 0.9;
                             ctx.stroke();
                         }
