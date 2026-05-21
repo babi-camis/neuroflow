@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>NeuroFlow | O Estado de Presença Otimizado</title>
+    
+    <!-- Google Fonts - Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AlpineJS para elementos interativos (Carregado com defer) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        eucalyptus: '#2C3E35',
+                        'eucalyptus-light': '#3A5246',
+                        'slate-violet': '#4A4E69',
+                        sand: '#F2E9E1',
+                        'sand-light': '#FAF6F2',
+                        apricot: '#E0A96D',
+                        'apricot-dark': '#C98F53',
+                        'text-dark': '#1E2824',
+                    },
+                    screens: {
+                        'xs': '375px',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Transições suaves para FAQ e badges dinâmicos */
+        .faq-transition {
+            transition: all 0.3s ease-out;
+        }
+        /* Barra de rolagem personalizada premium */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F2E9E1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2C3E35;
+            border-radius: 3px;
+        }
+        /* Efeito de pulsação para prova social dinâmica */
+        .pulse-live {
+            box-shadow: 0 0 0 0 rgba(224, 169, 109, 0.7);
+            animation: pulse 1.8s infinite cubic-bezier(0.66, 0, 0, 1);
+        }
+        @keyframes pulse {
+            to {
+                box-shadow: 0 0 0 10px rgba(224, 169, 109, 0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-sand text-text-dark font-sans antialiased overflow-x-hidden" x-data="salesApp">
+
+    <!-- Barra de Alerta Superior com temporizador de escassez adaptável -->
+    <div class="bg-eucalyptus text-sand-light text-center py-2.5 px-4 text-[10px] xs:text-xs font-semibold tracking-wide flex justify-center items-center flex-wrap gap-2 sticky top-0 z-50">
+        <span class="inline-block w-2 h-2 rounded-full bg-apricot animate-pulse flex-shrink-0"></span>
+        <span class="text-center">DESCONTO EXCLUSIVO DE LANÇAMENTO EXPIRA EM:</span> 
+        <span class="text-apricot font-mono font-bold bg-black/20 px-2 py-0.5 rounded whitespace-nowrap">
+            <span x-text="minutes">14</span>:<span x-text="seconds">59</span>
+        </span>
+    </div>
+
+    <!-- Cabeçalho Principal -->
+    <header class="bg-sand border-b border-slate-violet/10 py-3 sm:py-4 px-4 sm:px-6 md:px-12 sticky top-[38px] z-40 backdrop-blur-md bg-opacity-95">
+        <div class="max-w-6xl mx-auto flex justify-between items-center gap-4">
+            <!-- Logotipo da Marca -->
+            <div class="flex items-center gap-2 min-w-0">
+                <div class="w-8 h-8 rounded-lg bg-eucalyptus flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-apricot" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <div class="truncate">
+                    <span class="text-base sm:text-lg md:text-xl font-bold text-eucalyptus tracking-tight block">Neuro<span class="text-apricot-dark">Flow</span></span>
+                    <span class="hidden lg:inline-block text-[10px] uppercase tracking-widest text-slate-violet border-l border-slate-violet/20 pl-2">Estado de Presença Otimizado</span>
+                </div>
+            </div>
+
+            <!-- Botão de Ação Rápida no Cabeçalho -->
+            <a href="#oferta" class="bg-eucalyptus hover:bg-eucalyptus-light text-sand-light px-3.5 sm:px-5 py-2 rounded-full text-[9px] sm:text-xs font-semibold tracking-wider uppercase transition duration-300 shadow-sm flex-shrink-0 whitespace-nowrap">
+                Garantir Acesso
+            </a>
+        </div>
+    </header>
+
+    <!-- SECÇÃO HERO (Foco em mobile, alta legibilidade e sem risco de bloco no tráfego) -->
+    <section id="heroSection" class="relative py-8 sm:py-16 md:py-20 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden rounded-3xl">
+        <!-- Canvas de partículas responsivo -->
+        <canvas id="neuroCanvas" class="absolute inset-0 w-full h-full object-cover z-0 opacity-40 pointer-events-none"></canvas>
+        
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            <!-- Hero Esquerda: Headlines Estratégicas -->
+            <div class="lg:col-span-7 space-y-4 sm:space-y-6 order-2 lg:order-1 text-center lg:text-left">
+                <!-- Distintivo de Confiança com métricas -->
+                <div class="inline-flex items-center gap-2 bg-eucalyptus/5 border border-eucalyptus/10 rounded-full px-3 py-1.5 text-[10px] sm:text-xs text-eucalyptus font-semibold mx-auto lg:mx-0 max-w-full">
+                    <span class="flex -space-x-1 flex-shrink-0">
+                        <span class="w-4 h-4 rounded-full bg-slate-violet/20 border border-sand"></span>
+                        <span class="w-4 h-4 rounded-full bg-apricot/40 border border-sand"></span>
+                        <span class="w-4 h-4 rounded-full bg-eucalyptus/40 border border-sand"></span>
+                    </span>
+                    <span class="truncate">Mais de <strong class="text-eucalyptus">14.280 mentes organizadas</strong> esta semana</span>
+                </div>
+
+                <h1 class="text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-eucalyptus leading-[1.2] lg:leading-[1.1] tracking-tight">
+                    Sua mente pensa a mil, mas o seu dia <span class="underline decoration-apricot decoration-wavy decoration-2 sm:decoration-3">não sai do lugar?</span>
+                </h1>
+
+                <p class="text-xs sm:text-sm md:text-base lg:text-lg text-slate-violet leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    Se já tentou usar agendas rígidas, alarmes e aplicações complexas de rotina, mas acaba sempre frustrado... o problema não é a sua falta de foco. É o sistema que está a tentar forçar no seu cérebro.
+                </p>
+
+                <!-- Benefícios de identificação imediata -->
+                <div class="space-y-3 pt-2 text-left max-w-md sm:max-w-lg mx-auto lg:mx-0">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-apricot-dark mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        <p class="text-xs sm:text-sm font-medium text-text-dark"><strong>Zero Métodos Rígidos:</strong> Pare de lutar contra o tédio das rotinas mecânicas.</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-apricot-dark mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        <p class="text-xs sm:text-sm font-medium text-text-dark"><strong>Foco Orgânico por Hiperfoco:</strong> Aprenda a guiar a sua energia dispersa para terminar tarefas complexas rapidamente.</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-apricot-dark mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        <p class="text-xs sm:text-sm font-medium text-text-dark"><strong>Sistemas Visuais Anticaos:</strong> Organize o seu ambiente de trabalho e vida pessoal com o mínimo de esforço diário.</p>
+                    </div>
+                </div>
+
+                <!-- Chamada de Ação e Garantia -->
+                <div class="space-y-4 pt-4">
+                    <a href="#oferta" class="pulse-live w-full sm:w-auto inline-flex justify-center items-center text-center bg-apricot hover:bg-apricot-dark text-eucalyptus font-bold text-sm sm:text-base md:text-lg px-5 sm:px-8 py-3.5 sm:py-4 rounded-xl transition duration-300 shadow-md">
+                        QUERO ORGANIZAR A MINHA MENTE HOJE
+                    </a>
+                    <div class="flex items-center justify-center lg:justify-start gap-2 text-[9px] sm:text-xs text-slate-violet font-semibold pl-1">
+                        <svg class="w-4 h-4 text-eucalyptus flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        Acesso Imediato + Garantia Incondicional de 7 Dias
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Direita: Mockup Digital Responsivo com CSS Puro -->
+            <div class="lg:col-span-5 flex justify-center order-1 lg:order-2 w-full px-4 xs:px-8 sm:px-12 lg:px-0">
+                <div class="relative w-full max-w-[280px] xs:max-w-[310px] sm:max-w-[340px] aspect-[4/5] bg-eucalyptus rounded-3xl p-6 sm:p-8 shadow-2xl border border-eucalyptus-light flex flex-col justify-between overflow-hidden">
+                    <!-- Detalhes estéticos abstratos de fundo -->
+                    <div class="absolute -top-12 -right-12 w-40 h-40 bg-apricot/15 rounded-full blur-2xl"></div>
+                    <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-slate-violet/20 rounded-full blur-2xl"></div>
+                    
+                    <!-- Marca do Ebook -->
+                    <div class="flex justify-between items-start z-10">
+                        <span class="text-[8px] sm:text-[10px] uppercase tracking-widest text-apricot font-bold">MÉTODO DIGITAL</span>
+                        <div class="w-5 h-5 sm:w-6 sm:h-6 rounded bg-sand/10 flex items-center justify-center">
+                            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-sand" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Título do Livro Digital -->
+                    <div class="space-y-2 sm:space-y-4 z-10 py-4 sm:py-8">
+                        <div class="h-[1px] w-12 bg-apricot"></div>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold text-sand-light tracking-tight leading-none">
+                            Neuro<br><span class="text-apricot">Flow</span>
+                        </h2>
+                        <p class="text-[9px] sm:text-xs text-sand-light/75 font-medium max-w-[160px] sm:max-w-[200px]">
+                            O Guia Prático de Autorregulação Cognitiva e Foco para Mentes Inquietas.
+                        </p>
+                    </div>
+
+                    <!-- Rodapé do Ebook -->
+                    <div class="flex justify-between items-center z-10 pt-3 sm:pt-4 border-t border-sand/10">
+                        <div class="text-[7px] sm:text-[9px] text-sand/60 tracking-wider uppercase">
+                            POR COGNITIVA LAB
+                        </div>
+                        <div class="text-[8px] sm:text-[10px] font-bold text-apricot uppercase tracking-wide bg-sand/10 px-2 py-0.5 rounded">
+                            Mentes Ativas
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECÇÃO DE ESTATÍSTICAS (Grelha flexível de rápida leitura) -->
+    <section class="bg-eucalyptus py-8 sm:py-10 px-4 sm:px-6 text-sand-light">
+        <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
+            <div class="p-2 border-r border-sand/10 md:border-r-0">
+                <h3 class="text-xl sm:text-3xl md:text-4xl font-black text-apricot">98.4%</h3>
+                <p class="text-[8px] sm:text-[10px] text-sand/70 uppercase tracking-widest mt-1">Clientes Satisfeitos</p>
+            </div>
+            <div class="p-2 md:border-r md:border-sand/10">
+                <h3 class="text-xl sm:text-3xl md:text-4xl font-black text-apricot">14 mil+</h3>
+                <p class="text-[8px] sm:text-[10px] text-sand/70 uppercase tracking-widest mt-1">Guias Entregues</p>
+            </div>
+            <div class="p-2 border-r border-sand/10 md:border-r-0">
+                <h3 class="text-xl sm:text-3xl md:text-4xl font-black text-apricot">4.9/5</h3>
+                <p class="text-[8px] sm:text-[10px] text-sand/70 uppercase tracking-widest mt-1">Avaliação Geral</p>
+            </div>
+            <div class="p-2">
+                <h3 class="text-xl sm:text-3xl md:text-4xl font-black text-apricot">7 Min</h3>
+                <p class="text-[8px] sm:text-[10px] text-sand/70 uppercase tracking-widest mt-1">Leitura Diária</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- IDENTIFICAÇÃO EMOCIONAL -->
+    <section class="py-12 sm:py-20 md:py-24 px-4 sm:px-6 max-w-5xl mx-auto space-y-8 sm:space-y-12">
+        <div class="text-center space-y-3 sm:space-y-4">
+            <h2 class="text-xl sm:text-3xl md:text-4xl font-bold text-eucalyptus leading-tight">Sente que luta contra o seu próprio ritmo todos os dias?</h2>
+            <p class="text-xs sm:text-base text-slate-violet max-w-2xl mx-auto">Mentes aceleradas processam o mundo de forma diferente. Se vivencia estas situações frequentemente, saiba que não está sozinho:</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Dor 1 -->
+            <div class="bg-sand-light p-5 sm:p-8 rounded-2xl border border-eucalyptus/5 shadow-sm space-y-3 sm:space-y-4">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-violet/10 flex items-center justify-center text-slate-violet flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="font-bold text-eucalyptus text-sm sm:text-lg">Início Sem Fim</h3>
+                <p class="text-slate-violet text-[11px] sm:text-sm leading-relaxed">
+                    Acorda motivado, abre dezenas de abas no navegador, inicia três projetos ao mesmo tempo, mas a meio do dia perde o ritmo e deixa tudo inacabado.
+                </p>
+            </div>
+
+            <!-- Dor 2 -->
+            <div class="bg-sand-light p-5 sm:p-8 rounded-2xl border border-eucalyptus/5 shadow-sm space-y-3 sm:space-y-4">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-violet/10 flex items-center justify-center text-slate-violet flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+                <h3 class="font-bold text-eucalyptus text-sm sm:text-lg">Acúmulo de Caos</h3>
+                <p class="text-slate-violet text-[11px] sm:text-sm leading-relaxed">
+                    A desarrumação na mesa de trabalho, a correspondência acumulada ou as tarefas domésticas simples geram uma barreira mental gigante que procrastina por dias.
+                </p>
+            </div>
+
+            <!-- Dor 3 -->
+            <div class="bg-sand-light p-5 sm:p-8 rounded-2xl border border-eucalyptus/5 shadow-sm space-y-3 sm:space-y-4 sm:col-span-2 md:col-span-1">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-violet/10 flex items-center justify-center text-slate-violet flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <h3 class="font-bold text-eucalyptus text-sm sm:text-lg">A Culpa do "Potencial"</h3>
+                <p class="text-slate-violet text-[11px] sm:text-sm leading-relaxed">
+                    Costuma ouvir que "é muito inteligente, só lhe falta organização", o que cria um sentimento terrível de culpa no final de cada dia improdutivo.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ENTREGÁVEIS DO PRODUTO (O que recebe no interior do guia) -->
+    <section class="bg-sand-light py-12 sm:py-20 px-4 sm:px-6 border-y border-slate-violet/10">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+            
+            <!-- Conteúdo Detalhado -->
+            <div class="space-y-4 sm:space-y-6">
+                <div class="text-[9px] sm:text-xs uppercase tracking-widest text-slate-violet font-bold text-center lg:text-left">CONTEÚDO DO MÉTODO</div>
+                <h2 class="text-xl sm:text-3xl md:text-4xl font-bold text-eucalyptus tracking-tight text-center lg:text-left">O que vai receber ao aceder ao NeuroFlow:</h2>
+                <p class="text-xs sm:text-sm text-slate-violet leading-relaxed text-center lg:text-left">
+                    Um material prático, desenhado para aplicação imediata. Não precisa de ler centenas de páginas de teoria. O guia foi otimizado para leitura rápida em picos de foco.
+                </p>
+
+                <div class="space-y-4 pt-2">
+                    <!-- Detalhe 1 -->
+                    <div class="flex items-start gap-3 bg-sand p-4 rounded-xl border border-eucalyptus/5">
+                        <span class="w-6 h-6 rounded-full bg-eucalyptus text-apricot flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 mt-0.5">1</span>
+                        <div>
+                            <h4 class="font-bold text-eucalyptus text-xs sm:text-sm">O Guia Principal de Autorregulação</h4>
+                            <p class="text-slate-violet text-[11px] sm:text-xs mt-1 leading-relaxed">Como hackear os seus gatilhos de foco e criar picos de atenção produtiva sem depender de dopamina barata.</p>
+                        </div>
+                    </div>
+                    <!-- Detalhe 2 -->
+                    <div class="flex items-start gap-3 bg-sand p-4 rounded-xl border border-eucalyptus/5">
+                        <span class="w-6 h-6 rounded-full bg-eucalyptus text-apricot flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 mt-0.5">2</span>
+                        <div>
+                            <h4 class="font-bold text-eucalyptus text-xs sm:text-sm">Arquitetura da Rotina Sem Esforço</h4>
+                            <p class="text-slate-violet text-[11px] sm:text-xs mt-1 leading-relaxed">Métodos visuais de controlo de tarefas, cartões de rotina rápida e planeamento adaptativo semanal.</p>
+                        </div>
+                    </div>
+                    <!-- Detalhe 3 -->
+                    <div class="flex items-start gap-3 bg-sand p-4 rounded-xl border border-eucalyptus/5">
+                        <span class="w-6 h-6 rounded-full bg-eucalyptus text-apricot flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 mt-0.5">3</span>
+                        <div>
+                            <h4 class="font-bold text-eucalyptus text-xs sm:text-sm">BÓNUS: Manual de Combate à Procrastinação</h4>
+                            <p class="text-slate-violet text-[11px] sm:text-xs mt-1 leading-relaxed">O checklist de emergência para quando travar numa tarefa importante e precisar de agir de imediato.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apresentação Visual e Formato de Entrega -->
+            <div class="relative bg-eucalyptus text-sand-light p-5 sm:p-10 md:p-12 rounded-3xl space-y-6 shadow-xl border border-eucalyptus-light overflow-hidden">
+                <div class="absolute -top-12 -right-12 w-32 h-32 bg-apricot/20 rounded-full blur-xl"></div>
+                
+                <h3 class="text-lg sm:text-2xl font-bold tracking-tight">Formato 100% Digital</h3>
+                <p class="text-sand/80 text-xs sm:text-sm leading-relaxed">
+                    O acesso é enviado diretamente para o seu e-mail em formato PDF otimizado para leitura em telemóveis, tablets e computadores. Pode ler e aplicar minutos após o pagamento.
+                </p>
+
+                <!-- Checklist do Formato -->
+                <ul class="space-y-3 text-xs sm:text-sm text-sand/90">
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-apricot flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                        Layout fluido e adaptado para leitura em telemóveis
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-apricot flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                        Templates práticos e ferramentas prontas para imprimir
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-apricot flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                        Sem subscrições: pagamento único, acesso vitalício
+                    </li>
+                </ul>
+
+                <!-- Representação da Tela de Download -->
+                <div class="bg-sand/10 border border-sand/15 rounded-xl p-3 sm:p-4 flex items-center justify-between gap-3 mt-4">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="p-2 bg-sand/20 rounded-lg text-apricot flex-shrink-0">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <div class="truncate">
+                            <span class="text-[9px] text-sand/65 block">Entrega Imediata</span>
+                            <span class="text-xs font-semibold text-sand-light truncate block">neuroflow_guia_digital.pdf</span>
+                        </div>
+                    </div>
+                    <span class="text-[8px] sm:text-xs bg-apricot text-eucalyptus font-bold px-2 py-1 rounded flex-shrink-0">2.4 MB</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROVA SOCIAL / DEPOIMENTOS DE CLIENTES -->
+    <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-8 sm:space-y-12">
+        <div class="text-center space-y-3 sm:space-y-4">
+            <h2 class="text-xl sm:text-3xl md:text-4xl font-bold text-eucalyptus leading-tight">Resultados Reais: O que dizem as mentes ativas</h2>
+            <p class="text-xs sm:text-base text-slate-violet max-w-xl mx-auto">Histórias reais de quem finalmente parou de lutar contra a própria rotina.</p>
+        </div>
+
+        <!-- Grelha de Depoimentos Adaptável -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Depoimento 1 -->
+            <div class="bg-sand-light border border-slate-violet/10 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col justify-between">
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-violet/5 pb-3">
+                        <span class="text-[10px] sm:text-xs text-slate-violet font-semibold">@leticia.macedo</span>
+                        <div class="flex text-apricot text-[10px] sm:text-xs">★★★★★</div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-text-dark italic leading-relaxed">
+                        "Sempre me senti péssima por não conseguir manter uma agenda comum. O NeuroFlow ensinou-me a criar sistemas visuais na parede e em cartões simples. A minha mesa está limpa e finalmente consigo focar sem ansiedade. Recomendo imenso!"
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 pt-4 mt-6 border-t border-slate-violet/5">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-violet text-sand-light font-bold flex items-center justify-center text-xs flex-shrink-0">LM</div>
+                    <div class="truncate">
+                        <h4 class="font-bold text-xs text-eucalyptus truncate">Letícia Macedo</h4>
+                        <span class="text-[9px] sm:text-[10px] text-slate-violet block truncate">Designer Freelancer</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Depoimento 2 -->
+            <div class="bg-sand-light border border-slate-violet/10 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col justify-between">
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-violet/5 pb-3">
+                        <span class="text-[10px] sm:text-xs text-slate-violet font-semibold">@bruno_alves7</span>
+                        <div class="flex text-apricot text-[10px] sm:text-xs">★★★★★</div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-text-dark italic leading-relaxed">
+                        "A técnica do hiperfoco guiado transformou as minhas tardes de trabalho. Costumava arrastar tarefas difíceis durante semanas, agora sei exatamente como preparar o meu ambiente para as executar em blocos rápidos, sem tédio."
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 pt-4 mt-6 border-t border-slate-violet/5">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-eucalyptus text-sand-light font-bold flex items-center justify-center text-xs flex-shrink-0">BA</div>
+                    <div class="truncate">
+                        <h4 class="font-bold text-xs text-eucalyptus truncate">Bruno Alves</h4>
+                        <span class="text-[9px] sm:text-[10px] text-slate-violet block truncate">Programador de Software</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Depoimento 3 -->
+            <div class="bg-sand-light border border-slate-violet/10 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col justify-between sm:col-span-2 lg:col-span-1">
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-violet/5 pb-3">
+                        <span class="text-[10px] sm:text-xs text-slate-violet font-semibold">@isabela_parentalidade</span>
+                        <div class="flex text-apricot text-[10px] sm:text-xs">★★★★★</div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-text-dark italic leading-relaxed">
+                        "Estava exausta com a rotina do meu filho em casa, ele estava sempre muito elétrico à noite. O capítulo de rotinas tranquilas ajudou-nos a gerir melhor a transição das tarefas dele. A harmonia em nossa casa melhorou imenso!"
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 pt-4 mt-6 border-t border-slate-violet/5">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-apricot text-eucalyptus font-bold flex items-center justify-center text-xs flex-shrink-0">IS</div>
+                    <div class="truncate">
+                        <h4 class="font-bold text-xs text-eucalyptus truncate">Isabela Souza</h4>
+                        <span class="text-[9px] sm:text-[10px] text-slate-violet block truncate">Mãe e Empreendedora</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECÇÃO DE OFERTA -->
+    <section id="oferta" class="py-12 sm:py-20 px-4 sm:px-6 bg-eucalyptus text-sand-light relative overflow-hidden">
+        <div class="absolute -top-24 -left-24 w-64 h-64 bg-apricot/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-slate-violet/20 rounded-full blur-3xl"></div>
+
+        <div class="max-w-xl mx-auto text-center space-y-6 sm:space-y-8 relative z-10">
+            <div class="space-y-2 sm:space-y-3">
+                <span class="text-[10px] sm:text-xs text-apricot font-bold tracking-widest uppercase block">Acesso Vitalício Imediato</span>
+                <h2 class="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">Comece a otimizar a sua presença hoje mesmo</h2>
+                <p class="text-sand/70 text-xs sm:text-sm max-w-md mx-auto">Garanta o manual prático e o bónus exclusivo pelo valor especial de lançamento.</p>
+            </div>
+
+            <!-- Caixa de Preço de Alta Conversão -->
+            <div class="bg-sand-light text-text-dark p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-sand/20 shadow-xl space-y-6">
+                <div class="space-y-1">
+                    <span class="text-xs text-slate-violet line-through block">De 197,00 €</span>
+                    <div class="flex justify-center items-baseline gap-1">
+                        <span class="text-xs sm:text-sm font-semibold text-slate-violet">Por apenas</span>
+                        <span class="text-3xl sm:text-5xl font-black text-eucalyptus">37,90 €</span>
+                    </div>
+                    <span class="text-[9px] sm:text-[10px] text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider block w-max mx-auto">Poupe 159,10 €</span>
+                </div>
+
+                <!-- Lista de Entrega Garantida -->
+                <div class="border-t border-b border-eucalyptus/10 py-4 space-y-2 text-left max-w-xs sm:max-w-sm mx-auto text-xs font-semibold text-slate-violet">
+                    <div class="flex items-start gap-2">
+                        <svg class="w-4 h-4 text-apricot-dark flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Guia NeuroFlow em formato digital</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <svg class="w-4 h-4 text-apricot-dark flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Bónus: Manual de Combate à Procrastinação</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <svg class="w-4 h-4 text-apricot-dark flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Acesso vitalício sem mensalidades futuras</span>
+                    </div>
+                </div>
+
+                <!-- Botão de Checkout e Garantia de Segurança -->
+                <div class="space-y-3">
+                    <a href="https://pay.exemplo.com.br/neuroflow" class="pulse-live w-full inline-flex justify-center items-center text-center bg-apricot hover:bg-apricot-dark text-eucalyptus font-black text-sm sm:text-base md:text-lg px-5 sm:px-6 py-3.5 sm:py-4 rounded-xl transition duration-300 shadow-lg min-h-[52px]">
+                        ADQUIRIR O MEU ACESSO AGORA
+                    </a>
+                    
+                    <!-- Selos de Segurança -->
+                    <div class="flex justify-center items-center gap-3 sm:gap-4 pt-1 flex-wrap">
+                        <span class="flex items-center gap-1 text-[10px] text-slate-violet font-semibold">
+                            <svg class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+                            Pagamento Seguro
+                        </span>
+                        <span class="text-slate-violet/20 hidden xs:inline">|</span>
+                        <span class="flex items-center gap-1 text-[10px] text-slate-violet font-semibold">
+                            <svg class="w-3.5 h-3.5 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg>
+                            Entrega Instantânea
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selo de Garantia de Satisfação -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto pt-4 text-center sm:text-left">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-sand/10 flex items-center justify-center flex-shrink-0 text-apricot">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs sm:text-sm text-sand-light">A sua satisfação ou reembolso total</h4>
+                    <p class="text-[10px] sm:text-xs text-sand/65 mt-1 leading-relaxed">Tem 7 dias inteiros para testar o método. Se achar que não ajudou a melhorar o seu foco, devolvemos todo o seu investimento de imediato, sem burocracias.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECÇÃO FAQ / SAC (Accordions otimizados com AlpineJS para ecrãs táteis) -->
+    <section class="py-12 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto space-y-8 sm:space-y-12" x-data="{ activeFaq: null }">
+        <div class="text-center space-y-3 sm:space-y-4">
+            <h2 class="text-xl sm:text-3xl md:text-4xl font-bold text-eucalyptus leading-tight">Perguntas Frequentes (FAQ)</h2>
+            <p class="text-xs sm:text-sm text-slate-violet max-w-md mx-auto">Tire todas as suas dúvidas antes de iniciar o método NeuroFlow.</p>
+        </div>
+
+        <div class="space-y-3">
+            <!-- Item 1 -->
+            <div class="bg-sand-light border border-slate-violet/10 rounded-xl overflow-hidden transition-all duration-300">
+                <button 
+                    @click="activeFaq = activeFaq === 1 ? null : 1" 
+                    class="w-full text-left p-5 sm:p-6 flex justify-between items-center focus:outline-none gap-4"
+                >
+                    <span class="font-bold text-eucalyptus text-xs sm:text-sm md:text-base">Como é feito o envio do material?</span>
+                    <svg 
+                        class="w-4 h-4 text-slate-violet transition-transform duration-300 flex-shrink-0"
+                        :class="activeFaq === 1 ? 'rotate-180' : ''"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div 
+                    x-show="activeFaq === 1" 
+                    x-collapse 
+                    class="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-slate-violet leading-relaxed border-t border-slate-violet/5 pt-4"
+                >
+                    O envio é 100% digital e automático. Logo que o pagamento é confirmado, recebe um e-mail com o link de download para descarregar o e-book principal e todos os bónus. Pagamentos por Cartão ou canais imediatos são aprovados e libertados em minutos.
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="bg-sand-light border border-slate-violet/10 rounded-xl overflow-hidden transition-all duration-300">
+                <button 
+                    @click="activeFaq = activeFaq === 2 ? null : 2" 
+                    class="w-full text-left p-5 sm:p-6 flex justify-between items-center focus:outline-none gap-4"
+                >
+                    <span class="font-bold text-eucalyptus text-xs sm:text-sm md:text-base">Preciso de um diagnóstico clínico para usar o guia?</span>
+                    <svg 
+                        class="w-4 h-4 text-slate-violet transition-transform duration-300 flex-shrink-0"
+                        :class="activeFaq === 2 ? 'rotate-180' : ''"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div 
+                    x-show="activeFaq === 2" 
+                    x-collapse 
+                    class="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-slate-violet leading-relaxed border-t border-slate-violet/5 pt-4"
+                >
+                    Não. O NeuroFlow foi desenhado para todas as pessoas que sofrem com mentes aceleradas, dispersão, procrastinação crónica ou dificuldades em gerir uma rotina diária. São técnicas de comportamento e organização visual extremamente úteis tanto para quem tem diagnóstico como para quem simplesmente se sente sobrecarregado pela tecnologia no dia a dia.
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="bg-sand-light border border-slate-violet/10 rounded-xl overflow-hidden transition-all duration-300">
+                <button 
+                    @click="activeFaq = activeFaq === 3 ? null : 3" 
+                    class="w-full text-left p-5 sm:p-6 flex justify-between items-center focus:outline-none gap-4"
+                >
+                    <span class="font-bold text-eucalyptus text-xs sm:text-sm md:text-base">Durante quanto tempo terei acesso ao material?</span>
+                    <svg 
+                        class="w-4 h-4 text-slate-violet transition-transform duration-300 flex-shrink-0"
+                        :class="activeFaq === 3 ? 'rotate-180' : ''"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div 
+                    x-show="activeFaq === 3" 
+                    x-collapse 
+                    class="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-slate-violet leading-relaxed border-t border-slate-violet/5 pt-4"
+                >
+                    O seu acesso é vitalício. Realiza o pagamento único de 37,90 € e o manual digital é seu para sempre, podendo descarregar e ler sempre que desejar e nos dispositivos que preferir.
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="bg-sand-light border border-slate-violet/10 rounded-xl overflow-hidden transition-all duration-300">
+                <button 
+                    @click="activeFaq = activeFaq === 4 ? null : 4" 
+                    class="w-full text-left p-5 sm:p-6 flex justify-between items-center focus:outline-none gap-4"
+                >
+                    <span class="font-bold text-eucalyptus text-xs sm:text-sm md:text-base">Como funciona a garantia de reembolso?</span>
+                    <svg 
+                        class="w-4 h-4 text-slate-violet transition-transform duration-300 flex-shrink-0"
+                        :class="activeFaq === 4 ? 'rotate-180' : ''"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div 
+                    x-show="activeFaq === 4" 
+                    x-collapse 
+                    class="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-slate-violet leading-relaxed border-t border-slate-violet/5 pt-4"
+                >
+                    Adquira de forma totalmente segura. Pode ler, aplicar os exercícios e utilizar as ferramentas. Se nos próximos 7 dias sentir que o guia não acrescentou valor ao seu foco, basta contactar o nosso suporte por e-mail e devolvemos 100% do seu pagamento imediata e integralmente.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOTIFICAÇÃO DE COMPRA REALÍSTICA (Responsiva: Otimizada para telemóveis e desktop) -->
+    <div 
+        x-show="notificationShow" 
+        x-transition:enter="transition ease-out duration-500"
+        x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+        x-transition:leave-end="opacity-0 translate-y-4 scale-95"
+        class="fixed bottom-4 left-4 right-4 sm:right-auto sm:left-6 sm:bottom-6 z-50 bg-sand-light border border-eucalyptus/10 rounded-2xl p-4 shadow-xl flex items-center gap-3 max-w-sm sm:max-w-xs"
+        style="display: none;"
+    >
+        <div class="w-9 h-9 rounded-full bg-apricot/20 text-apricot-dark flex items-center justify-center flex-shrink-0 font-bold text-xs">
+            NF
+        </div>
+        <div class="min-w-0 flex-1">
+            <p class="text-xs text-slate-violet font-semibold leading-snug">
+                <span class="text-eucalyptus font-bold" x-text="notificationName">Rodrigo M.</span> acabou de adquirir o NeuroFlow.
+            </p>
+            <span class="text-[9px] text-slate-violet/60 block mt-0.5" x-text="notificationTime">há 2 minutos</span>
+        </div>
+    </div>
+
+    <!-- RODAPÉ FUNCIONAL COMPLETO (Compliance total com tráfego do Meta Ads) -->
+    <footer class="bg-eucalyptus text-sand-light pt-12 sm:pt-16 pb-8 px-4 sm:px-6 border-t border-sand/5">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 border-b border-sand/5 pb-8 sm:pb-12">
+            
+            <!-- Branding do Rodapé -->
+            <div class="md:col-span-5 space-y-4 text-center md:text-left">
+                <div class="flex items-center justify-center md:justify-start gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-sand/10 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-apricot" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-lg sm:text-xl font-bold tracking-tight">Neuro<span class="text-apricot">Flow</span></span>
+                </div>
+                <p class="text-xs text-sand/65 leading-relaxed max-w-sm mx-auto md:mx-0">
+                    A NeuroFlow e a Cognitiva Lab desenvolvem metodologias e guias de organização comportamental com ferramentas de foco focadas no alívio de sintomas de mentes ativas.
+                </p>
+            </div>
+
+            <!-- Links de Navegação -->
+            <div class="md:col-span-3 space-y-3 text-center md:text-left">
+                <h4 class="text-xs uppercase tracking-widest text-apricot font-bold">Navegação</h4>
+                <ul class="space-y-2 text-xs text-sand/75">
+                    <li><a href="#oferta" class="hover:text-apricot transition">Garantir Guia</a></li>
+                    <li><a href="#oferta" class="hover:text-apricot transition">Depoimentos</a></li>
+                    <li><a href="#oferta" class="hover:text-apricot transition">Perguntas Frequentes</a></li>
+                </ul>
+            </div>
+
+            <!-- Canais de Apoio -->
+            <div class="md:col-span-4 space-y-3 text-center md:text-left">
+                <h4 class="text-xs uppercase tracking-widest text-apricot font-bold">Apoio e Contacto</h4>
+                <p class="text-xs text-sand/75">Dúvidas com o acesso? Envie um e-mail para:</p>
+                <a href="mailto:suporte@neuroflow.com.br" class="text-xs text-apricot font-bold hover:underline block">suporte@neuroflow.com.br</a>
+                <p class="text-[9px] text-sand/50">Atendimento de Segunda a Sexta das 9h às 18h.</p>
+            </div>
+
+        </div>
+
+        <!-- Avisos Médicos de Segurança (Evita bloqueios de revisão humana na Meta) -->
+        <div class="max-w-6xl mx-auto pt-8 space-y-6">
+            <div class="text-[9px] sm:text-[10px] text-sand/40 leading-relaxed space-y-3 text-justify">
+                <p>
+                    <strong>Aviso Médico Legal Importante:</strong> O material presente neste guia destina-se única e exclusivamente a fins educacionais, de desenvolvimento pessoal e organização comportamental. Os sistemas, sugestões e métodos apresentados não representam de forma alguma aconselhamento médico, psicológico, psiquiátrico ou acompanhamento terapêutico. As metodologias sugeridas não substituem em momento algum consultas regulares com profissionais competentes licenciados nas respetivas especialidades para efeitos de diagnóstico, tratamento ou intervenção médica.
+                </p>
+                <p>
+                    Todos os direitos reservados. Qualquer forma de cópia, distribuição, alteração ou comercialização não autorizada constitui crime de violação de direitos de autor, protegida e punida por lei.
+                </p>
+            </div>
+
+            <!-- Informações Institucionais e Termos de Uso -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-sand/5 pt-6 text-[10px] sm:text-xs text-sand/65 text-center md:text-left">
+                <div>
+                    &copy; <span x-text="new Date().getFullYear()">2026</span> NeuroFlow &amp; Cognitiva Lab. Todos os direitos reservados.
+                </div>
+                <div class="flex gap-4 flex-wrap justify-center">
+                    <a href="#oferta" class="hover:underline hover:text-apricot">Termos de Utilização</a>
+                    <span>&bull;</span>
+                    <a href="#oferta" class="hover:underline hover:text-apricot">Políticas de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LOGICA REATIVA COMPATÍVEL COM ALPINEJS V3 E ANIMAÇÃO DO CANVAS -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('salesApp', () => ({
+                // Notificações de Prova Social reativas
+                notificationShow: false,
+                notificationName: '',
+                notificationTime: '',
+                
+                // Temporizador de escassez
+                minutes: '14',
+                seconds: '59',
+                duration: 15 * 60,
+
+                // Corre inicialização de forma estável no DOM
+                init() {
+                    this.startTimer();
+                    setTimeout(() => this.runSocialProofSimulation(), 4000);
+                },
+
+                startTimer() {
+                    let timer = this.duration, mins, secs;
+                    setInterval(() => {
+                        mins = parseInt(timer / 60, 10);
+                        secs = parseInt(timer % 60, 10);
+
+                        this.minutes = mins < 10 ? "0" + mins : String(mins);
+                        this.seconds = secs < 10 ? "0" + secs : String(secs);
+
+                        if (--timer < 0) {
+                            timer = this.duration; // ciclo contínuo de emergência
+                        }
+                    }, 1000);
+                },
+
+                runSocialProofSimulation() {
+                    const names = ["Marcos S.", "Camila R.", "Thiago L.", "Juliana M.", "André G.", "Patrícia B.", "Felipe C.", "Aline V.", "Sofia P.", "Diogo F.", "Cláudia M."];
+                    const times = ["há 1 minuto", "há 3 minutos", "há 5 minutos", "há 20 segundos", "há 45 segundos", "agora mesmo"];
+                    
+                    this.notificationName = names[Math.floor(Math.random() * names.length)];
+                    this.notificationTime = times[Math.floor(Math.random() * times.length)];
+                    this.notificationShow = true;
+
+                    // Fecha o banner flutuante após 6 segundos de exposição
+                    setTimeout(() => {
+                        this.notificationShow = false;
+                    }, 6000);
+
+                    // Reativa a cada intervalo aleatório seguro (18s a 35s)
+                    const nextCycle = Math.floor(Math.random() * (35000 - 18000 + 1) + 18000);
+                    setTimeout(() => this.runSocialProofSimulation(), nextCycle);
+                }
+            }));
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('neuroCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const container = document.getElementById('heroSection');
+            
+            // Define o tamanho baseado no elemento pai para garantir responsividade fluida
+            let width = canvas.width = container.clientWidth;
+            let height = canvas.height = container.clientHeight;
+            
+            const particles = [];
+            // Densidade de partículas adaptada ao tamanho do ecrã
+            const particleCount = Math.min(60, Math.floor((width * height) / 11000));
+            
+            // Cores baseadas nos Design Tokens (Slate Violet e Apricot)
+            const colors = ['rgba(74, 78, 105, 0.35)', 'rgba(224, 169, 109, 0.45)', 'rgba(44, 62, 53, 0.2)'];
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.7;
+                    this.vy = (Math.random() - 0.5) * 0.7;
+                    this.radius = Math.random() * 2 + 1.5;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+            }
+            
+            // Inicialização do sistema
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+            
+            // Rastreamento interativo de toque e rato
+            let mouse = { x: null, y: null, radius: 140 };
+            
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+            
+            container.addEventListener('mouseleave', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            container.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    const rect = container.getBoundingClientRect();
+                    mouse.x = e.touches[0].clientX - rect.left;
+                    mouse.y = e.touches[0].clientY - rect.top;
+                }
+            }, { passive: true });
+
+            container.addEventListener('touchend', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+            
+            // Redimensionamento do canvas dinamicamente mantendo a proporção
+            function resize() {
+                if (!container) return;
+                width = canvas.width = container.clientWidth;
+                height = canvas.height = container.clientHeight;
+            }
+            window.addEventListener('resize', resize);
+            
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                
+                // Desenha as ligações entre as partículas próximas
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                    
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist < 110) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(74, 78, 105, ${0.12 * (1 - dist / 110)})`;
+                            ctx.lineWidth = 0.7;
+                            ctx.stroke();
+                        }
+                    }
+                    
+                    // Desenha a ligação interativa com a posição do rato/toque
+                    if (mouse.x !== null && mouse.y !== null) {
+                        const dx = particles[i].x - mouse.x;
+                        const dy = particles[i].y - mouse.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < mouse.radius) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(mouse.x, mouse.y);
+                            ctx.strokeStyle = `rgba(224, 169, 109, ${0.22 * (1 - dist / mouse.radius)})`;
+                            ctx.lineWidth = 0.9;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        });
+    </script>
+</body>
+</html>
