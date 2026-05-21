@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>NeuroFlow | Checkout Seguro de Alta Performance</title>
+    <!-- Google Fonts - Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AlpineJS para gerenciamento reativo de estados de checkout -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        eucalyptus: '#4F46E5', // Indigo Elétrico
+                        'eucalyptus-light': '#6366F1', // Violeta Vibrante
+                        'slate-violet': '#7C3AED', // Roxo Premium
+                        sand: '#0B0F19', // Fundo Dark Principal (Ultra Premium)
+                        'sand-light': '#161F30', // Fundo Dark de Cartões/Destaques
+                        apricot: '#FF4F00', // Laranja Neon de Conversão Absoluta
+                        'apricot-dark': '#E03E00', // Laranja Neon Escuro
+                        'text-dark': '#F8FAFC', // Contraste de leitura perfeito
+                    },
+                    screens: {
+                        'xs': '375px',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Efeito de brilho neon nos botões e elementos de conversão */
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(255, 79, 0, 0.45);
+        }
+        .border-neon {
+            border: 1px solid rgba(255, 79, 0, 0.35);
+        }
+        .border-neon-active {
+            border: 2px solid #FF4F00;
+            box-shadow: 0 0 15px rgba(255, 79, 0, 0.25);
+        }
+        .purple-glow {
+            box-shadow: 0 0 25px rgba(124, 58, 237, 0.3);
+        }
+        
+        /* Transição e Flip 3D para o cartão de crédito virtual */
+        .card-container {
+            perspective: 1000px;
+        }
+        .credit-card {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .credit-card.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        /* Customizações gerais da página */
+        html {
+            scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF4F00;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-sand text-text-dark font-sans antialiased overflow-x-hidden min-h-screen" x-data="checkoutApp()">
+
+    <!-- Barra de Alerta Superior - Urgência para Reduzir Abandono -->
+    <div class="bg-gradient-to-r from-apricot to-apricot-dark text-white text-center py-2 px-4 text-[10px] xs:text-xs font-semibold tracking-wide flex justify-center items-center flex-wrap gap-2 sticky top-0 z-50 shadow-md">
+        <span class="inline-block w-2 h-2 rounded-full bg-white animate-ping"></span>
+        <span>RESERVA GARANTIDA! SEU DESCONTO EXPIRA EM:</span> 
+        <span class="text-white font-mono font-bold bg-black/40 px-2 py-0.5 rounded whitespace-nowrap">
+            <span x-text="minutes">09</span>:<span x-text="seconds">59</span>
+        </span>
+    </div>
+
+    <!-- Cabeçalho de Checkout Limpo (Sem links de fuga para focar 100% na conversão) -->
+    <header class="bg-sand/90 border-b border-indigo-950/50 py-4 px-4 sm:px-6 md:px-12 backdrop-blur-md sticky top-[36px] z-40">
+        <div class="max-w-6xl mx-auto flex justify-between items-center gap-4">
+            <!-- Logotipo -->
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-eucalyptus to-slate-violet flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <span class="text-lg sm:text-xl font-bold text-eucalyptus-light tracking-tight">Neuro<span class="text-apricot">Flow</span></span>
+            </div>
+            
+            <!-- Selo de Checkout Seguro -->
+            <div class="flex items-center gap-1.5 text-[10px] sm:text-xs text-indigo-300 font-bold bg-slate-900/80 px-3 py-1.5 rounded-full border border-indigo-950/60">
+                <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                </svg>
+                <span>Checkout 100% Seguro</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Corpo Principal do Checkout (Estrutura Grid Responsiva) -->
+    <main class="max-w-6xl mx-auto px-4 py-8 sm:py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- COLUNA ESQUERDA (7 colunas): Formulários e Etapas -->
+        <div class="lg:col-span-7 space-y-6">
+            
+            <!-- Barra de Progresso de Passos -->
+            <div class="flex items-center justify-between bg-sand-light p-4 rounded-2xl border border-indigo-950/60">
+                <div class="flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs"
+                          :class="step === 1 ? 'bg-apricot text-white' : 'bg-emerald-500 text-white'">
+                        <span x-show="step === 1">1</span>
+                        <span x-show="step > 1">✓</span>
+                    </span>
+                    <span class="text-xs sm:text-sm font-bold" :class="step === 1 ? 'text-white' : 'text-slate-400'">Dados Pessoais</span>
+                </div>
+                <div class="flex-1 h-0.5 bg-indigo-950 mx-4 max-w-[60px] sm:max-w-[120px]"></div>
+                <div class="flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs"
+                          :class="step === 2 ? 'bg-apricot text-white' : 'bg-slate-800 text-slate-400'">
+                        2
+                    </span>
+                    <span class="text-xs sm:text-sm font-bold" :class="step === 2 ? 'text-white' : 'text-slate-400'">Pagamento</span>
+                </div>
+            </div>
+
+            <!-- VIEW DO FORMULÁRIO -->
+            <div class="bg-sand-light rounded-3xl p-6 sm:p-8 border border-indigo-950/60 shadow-xl space-y-6">
+                
+                <!-- STEP 1: DADOS PESSOAIS -->
+                <div x-show="step === 1" class="space-y-6" x-transition:enter="transition duration-200">
+                    <div class="border-b border-indigo-950 pb-4">
+                        <h2 class="text-lg sm:text-xl font-bold text-white">Informações de Contato e Faturamento</h2>
+                        <p class="text-xs text-indigo-300 mt-1">Insira seus dados abaixo para receber as chaves de acesso ao material digital.</p>
+                    </div>
+
+                    <!-- Campos de Entrada -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Nome Completo -->
+                        <div class="sm:col-span-2 space-y-2">
+                            <label class="text-xs font-bold text-slate-300 block">Nome Completo</label>
+                            <input type="text" x-model="formData.name" placeholder="Digite seu nome completo" 
+                                   class="w-full bg-slate-900 border border-indigo-950/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-eucalyptus transition">
+                            <p x-show="errors.name" class="text-[11px] text-red-400 font-semibold" x-text="errors.name" style="display: none;"></p>
+                        </div>
+
+                        <!-- E-mail -->
+                        <div class="sm:col-span-2 space-y-2">
+                            <label class="text-xs font-bold text-slate-300 block">E-mail para Envio do Acesso</label>
+                            <input type="email" x-model="formData.email" placeholder="exemplo@email.com" 
+                                   class="w-full bg-slate-900 border border-indigo-950/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-eucalyptus transition">
+                            <p class="text-[10px] text-indigo-400 font-semibold">Importante: Verifique duas vezes para evitar erros de entrega.</p>
+                            <p x-show="errors.email" class="text-[11px] text-red-400 font-semibold" x-text="errors.email" style="display: none;"></p>
+                        </div>
+
+                        <!-- CPF -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-300 block">CPF (Faturamento Seguro)</label>
+                            <input type="text" x-model="formData.cpf" x-on:input="maskCPF" placeholder="000.000.000-00" maxlength="14"
+                                   class="w-full bg-slate-900 border border-indigo-950/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-eucalyptus transition">
+                            <p x-show="errors.cpf" class="text-[11px] text-red-400 font-semibold" x-text="errors.cpf" style="display: none;"></p>
+                        </div>
+
+                        <!-- WhatsApp -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-300 block">WhatsApp com DDD</label>
+                            <input type="text" x-model="formData.phone" x-on:input="maskPhone" placeholder="(00) 90000-0000" maxlength="15"
+                                   class="w-full bg-slate-900 border border-indigo-950/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-eucalyptus transition">
+                            <p x-show="errors.phone" class="text-[11px] text-red-400 font-semibold" x-text="errors.phone" style="display: none;"></p>
+                        </div>
+                    </div>
+
+                    <!-- Botão de Próximo Passo -->
+                    <button type="button" @click="goToStep2()" 
+                            class="w-full bg-gradient-to-r from-apricot to-apricot-dark hover:scale-[1.01] transition transform text-white font-black text-sm py-4 rounded-xl shadow-lg flex items-center justify-center gap-2 mt-4 min-h-[50px]">
+                        <span>IR PARA O PAGAMENTO SEGURO</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- STEP 2: MÉTODOS DE PAGAMENTO -->
+                <div x-show="step === 2" class="space-y-6" x-transition:enter="transition duration-200" style="display: none;">
+                    <div class="flex justify-between items-center border-b border-indigo-950 pb-4">
+                        <div>
+                            <h2 class="text-lg sm:text-xl font-bold text-white">Método de Pagamento Seguro</h2>
+                            <p class="text-xs text-indigo-300 mt-1">Selecione como deseja garantir o seu acesso.</p>
+                        </div>
+                        <button type="button" @click="step = 1" class="text-xs text-indigo-400 font-bold hover:underline flex items-center gap-1">
+                            « Alterar Dados
+                        </button>
+                    </div>
+
+                    <!-- Abas de Pagamento -->
+                    <div class="grid grid-cols-3 gap-2">
+                        <!-- PIX -->
+                        <button type="button" @click="paymentMethod = 'pix'" 
+                                class="p-3 sm:p-4 rounded-xl flex flex-col items-center justify-center gap-1.5 transition text-center min-h-[75px]"
+                                :class="paymentMethod === 'pix' ? 'bg-apricot/10 border-2 border-apricot text-white' : 'bg-slate-900 border border-indigo-950/80 text-slate-400'">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider">PIX Imediato</span>
+                        </button>
+
+                        <!-- Cartão de Crédito -->
+                        <button type="button" @click="paymentMethod = 'card'" 
+                                class="p-3 sm:p-4 rounded-xl flex flex-col items-center justify-center gap-1.5 transition text-center min-h-[75px]"
+                                :class="paymentMethod === 'card' ? 'bg-apricot/10 border-2 border-apricot text-white' : 'bg-slate-900 border border-indigo-950/80 text-slate-400'">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                            <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider">Cartão</span>
+                        </button>
+
+                        <!-- Boleto -->
+                        <button type="button" @click="paymentMethod = 'boleto'" 
+                                class="p-3 sm:p-4 rounded-xl flex flex-col items-center justify-center gap-1.5 transition text-center min-h-[75px]"
+                                :class="paymentMethod === 'boleto' ? 'bg-apricot/10 border-2 border-apricot text-white' : 'bg-slate-900 border border-indigo-950/80 text-slate-400'">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider">Boleto</span>
+                        </button>
+                    </div>
+
+                    <!-- FORMULÁRIO DENTRO DE CADA ABA SELECIONADA -->
+
+                    <!-- SEÇÃO PIX -->
+                    <div x-show="paymentMethod === 'pix'" class="space-y-4" x-transition:enter="transition duration-150">
+                        <div class="bg-indigo-950/30 border border-indigo-900/60 p-4 rounded-2xl space-y-2">
+                            <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                Acesso Liberado em Segundos no PIX
+                            </h3>
+                            <p class="text-xs text-indigo-200 leading-relaxed">
+                                Ao finalizar, geraremos uma chave de pagamento PIX exclusiva. O envio dos e-books é imediato e automatizado após a confirmação.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SEÇÃO CARTÃO DE CRÉDITO COM SIMULADOR INTERATIVO -->
+                    <div x-show="paymentMethod === 'card'" class="space-y-6" x-transition:enter="transition duration-150" style="display: none;">
+                        
+                        <!-- Preview do Cartão Virtual 3D -->
+                        <div class="card-container w-full h-[160px] sm:h-[190px] relative mx-auto max-w-[340px]">
+                            <div class="credit-card w-full h-full rounded-2xl relative shadow-2xl p-4 sm:p-5 flex flex-col justify-between text-white"
+                                 :class="{'flipped': cardFlipped, 'bg-gradient-to-tr from-indigo-950 via-slate-900 to-indigo-900 border border-indigo-800/80': cardType() !== 'visa' && cardType() !== 'master', 'bg-gradient-to-tr from-[#1a365d] to-[#2a4365] border border-blue-900/80': cardType() === 'visa', 'bg-gradient-to-tr from-[#3c0c1b] to-[#1a040b] border border-red-950/80': cardType() === 'master'}">
+                                
+                                <!-- FRENTE DO CARTÃO -->
+                                <div class="card-front w-full h-full flex flex-col justify-between p-4 sm:p-5 left-0 top-0">
+                                    <div class="flex justify-between items-start">
+                                        <div class="w-10 h-7 bg-amber-400/20 rounded-lg border border-amber-400/40"></div>
+                                        <!-- Logo da Bandeira Dinâmico -->
+                                        <div class="text-right">
+                                            <span x-show="cardType() === 'visa'" class="text-lg font-black italic tracking-wider text-blue-300">VISA</span>
+                                            <span x-show="cardType() === 'master'" class="text-lg font-black italic tracking-wider text-red-400">MASTER</span>
+                                            <span x-show="cardType() === 'unknown'" class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Crédito</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Número do Cartão -->
+                                    <div class="text-sm sm:text-lg font-mono font-bold tracking-widest text-center py-2" 
+                                         x-text="cardData.number ? formatCardNum(cardData.number) : '•••• •••• •••• ••••'">
+                                    </div>
+
+                                    <div class="flex justify-between items-end">
+                                        <div class="min-w-0">
+                                            <span class="text-[7px] sm:text-[8px] uppercase tracking-wider text-slate-300 block">Titular</span>
+                                            <span class="text-xs font-semibold truncate block max-w-[150px] uppercase" x-text="cardData.name || 'NOME DO TITULAR'"></span>
+                                        </div>
+                                        <div class="text-right flex-shrink-0">
+                                            <span class="text-[7px] sm:text-[8px] uppercase tracking-wider text-slate-300 block">Validade</span>
+                                            <span class="text-xs font-semibold block" x-text="cardData.expiry || 'MM/AA'"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- VERSO DO CARTÃO -->
+                                <div class="card-back w-full h-full flex flex-col justify-between py-4 sm:py-5 left-0 top-0">
+                                    <div class="w-full h-8 bg-slate-950 mt-1"></div>
+                                    <div class="px-5">
+                                        <div class="bg-white/10 h-8 rounded px-3 flex justify-end items-center text-right border border-white/10">
+                                            <span class="text-xs font-mono font-bold tracking-widest text-slate-200" x-text="cardData.cvv || '•••'"></span>
+                                        </div>
+                                        <span class="text-[7px] sm:text-[8px] uppercase tracking-wider text-slate-400 text-right block mt-1">Código CVV</span>
+                                    </div>
+                                    <div class="text-center text-[7px] sm:text-[8px] tracking-widest text-slate-500 uppercase">
+                                        AMBIENTE DE TRANSAÇÃO PROTEGIDO
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Campos do Formulário do Cartão -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Número do Cartão Input -->
+                            <div class="sm:col-span-2 space-y-2">
+                                <label class="text-xs font-bold text-slate-300 block">Número do Cartão</label>
+                                <input type="text" x-model="cardData.number" x-on:input="maskCardNumber" placeholder="4000 1234 5678 9010" maxlength="19"
+                                       class="w-full bg-slate-900 border border-indigo-950/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-eucalyptus transition">
+                                <p x-show="cardErrors.number" class="text-[11px] text-red-400 font-semibold" x-text="cardErrors.number" style="display: none;"></p>
+                            </div>
+
+                            <!-- Nome do Titular -->
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-300 block">Nome Impresso no Cartão</label>
+                                <input type="text" x-model="cardData.name" placeholder="Como no cartão" 
+                                       class="w-full bg-slate-900 border border-indigo-950/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-eucalyptus transition">
+                                <p x-show="cardErrors.name" class="text-[11px] text-red-400 font-semibold" x-text="cardErrors.name" style="display: none;"></p>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <!-- Validade -->
+                                <div class="space-y-2">
+                                    <label class="text-xs font-bold text-slate-300 block">Validade</label>
+                                    <input type="text" x-model="cardData.expiry" x-on:input="maskExpiry" placeholder="MM/AA" maxlength="5"
+                                           class="w-full bg-slate-900 border border-indigo-950/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-eucalyptus transition">
+                                    <p x-show="cardErrors.expiry" class="text-[11px] text-red-400 font-semibold" x-text="cardErrors.expiry" style="display: none;"></p>
+                                </div>
+
+                                <!-- CVV -->
+                                <div class="space-y-2">
+                                    <label class="text-xs font-bold text-slate-300 block">CVV</label>
+                                    <input type="text" x-model="cardData.cvv" @focus="cardFlipped = true" @blur="cardFlipped = false" placeholder="123" maxlength="4"
+                                           class="w-full bg-slate-900 border border-indigo-950/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-eucalyptus transition">
+                                    <p x-show="cardErrors.cvv" class="text-[11px] text-red-400 font-semibold" x-text="cardErrors.cvv" style="display: none;"></p>
+                                </div>
+                            </div>
+
+                            <!-- Seletor de Parcelamento -->
+                            <div class="sm:col-span-2 space-y-2">
+                                <label class="text-xs font-bold text-slate-300 block">Opção de Parcelas</label>
+                                <select x-model="installments" 
+                                        class="w-full bg-slate-900 border border-indigo-950/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-eucalyptus transition cursor-pointer">
+                                    <template x-for="i in 12" :key="i">
+                                        <option :value="i" x-text="formatInstallment(i)"></option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SEÇÃO BOLETO -->
+                    <div x-show="paymentMethod === 'boleto'" class="space-y-4" x-transition:enter="transition duration-150" style="display: none;">
+                        <div class="bg-indigo-950/30 border border-indigo-900/60 p-4 rounded-2xl space-y-2">
+                            <h3 class="text-xs sm:text-sm font-bold text-white">Boleto Bancário Processado com Segurança</h3>
+                            <p class="text-xs text-indigo-200 leading-relaxed">
+                                • Vencimento em 3 dias úteis.<br>
+                                • Confirmação bancária de 1 a 2 dias úteis.<br>
+                                • O acesso será liberado no e-mail assim que o pagamento for compensado.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Botão de Finalização para Step 2 -->
+                    <button type="button" @click="submitPayment()" 
+                            class="w-full bg-gradient-to-r from-apricot to-apricot-dark hover:scale-[1.01] transition transform text-white font-black text-sm py-4 rounded-xl shadow-lg flex items-center justify-center gap-2 mt-4 min-h-[50px] neon-glow">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M2.166 4.9L10 9.55 17.834 4.9a2 2 0 00-2.585-2.585L10 5.8 4.75 2.315a2 2 0 00-2.585 2.586z" clip-rule="evenodd"/>
+                            <path fill-rule="evenodd" d="M18 8v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8l8 4.75L18 8z" clip-rule="evenodd"/>
+                        </svg>
+                        <span x-text="getSubmitBtnText()">FINALIZAR COMPRA SEGURA</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Garantias e Selos abaixo do Formulário -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-slate-900/40 border border-indigo-950/60 p-4 rounded-2xl flex items-start gap-3">
+                    <div class="p-2 bg-indigo-950/60 text-emerald-400 rounded-xl flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white">Garantia Blindada de 7 Dias</h4>
+                        <p class="text-[11px] text-slate-400 mt-1">Seu risco é zero. Peça reembolso sem burocracias se não gostar.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/40 border border-indigo-950/60 p-4 rounded-2xl flex items-start gap-3">
+                    <div class="p-2 bg-indigo-950/60 text-indigo-400 rounded-xl flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white">Dados 100% Criptografados</h4>
+                        <p class="text-[11px] text-slate-400 mt-1">Segurança de criptografia nível bancário certificado de ponta a ponta.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUNA DIREITA (5 colunas): Resumo da Compra e Order Bump -->
+        <div class="lg:col-span-5 space-y-6">
+            
+            <!-- Resumo da Compra -->
+            <div class="bg-sand-light rounded-3xl p-6 border border-indigo-950/60 shadow-xl space-y-4">
+                <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400">Resumo do Pedido</h3>
+                
+                <!-- Produto Principal -->
+                <div class="flex gap-3 justify-between items-start border-b border-indigo-950 pb-4">
+                    <div class="min-w-0">
+                        <h4 class="text-sm font-bold text-white truncate">E-book Oficial NeuroFlow</h4>
+                        <p class="text-xs text-slate-400 mt-1">Acesso vitalício à Metodologia de Foco</p>
+                    </div>
+                    <span class="text-sm font-bold text-white whitespace-nowrap">R$ 37,90</span>
+                </div>
+
+                <!-- Bônus Integrados Grátis -->
+                <div class="space-y-2 border-b border-indigo-950 pb-4 text-xs font-semibold text-slate-400">
+                    <div class="flex justify-between items-center">
+                        <span class="truncate flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            Bônus: Manual de Resgate de Foco Imediato
+                        </span>
+                        <span class="text-emerald-400">Grátis</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="truncate flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            Bônus: Modelos de Planejamento Adaptativo
+                        </span>
+                        <span class="text-emerald-400">Grátis</span>
+                    </div>
+                </div>
+
+                <!-- ORDER BUMP: OPÇÃO DE UPGRADE EXCLUSIVA (Poderoso Multiplicador de Ticket) -->
+                <div class="rounded-2xl p-4 bg-indigo-950/40 relative overflow-hidden transition"
+                     :class="orderBump ? 'border-neon-active' : 'border border-indigo-950'">
+                    <!-- Alerta neon animado -->
+                    <div class="absolute -top-3 -right-3 w-16 h-16 bg-apricot/10 rounded-full blur-xl pointer-events-none"></div>
+                    
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="orderBumpCheck" x-model="orderBump" 
+                               class="w-5 h-5 rounded border-indigo-950 bg-slate-900 accent-apricot cursor-pointer mt-1 flex-shrink-0">
+                        <label for="orderBumpCheck" class="cursor-pointer space-y-1">
+                            <span class="inline-block bg-apricot text-white text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider mb-1 animate-pulse">UPGRADE EXCLUSIVO</span>
+                            <h4 class="text-xs font-bold text-white leading-snug">🧠 Manual do Hiperfoco Noturno</h4>
+                            <p class="text-[11px] text-indigo-200 leading-normal">
+                                Adicione o guia prático para desesgotar a mente à noite, programar um sono regenerativo e acordar sem estresse por apenas **R$ 14,90**!
+                            </p>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Resumo dos Valores Calculados em Tempo Real -->
+                <div class="space-y-2 pt-2">
+                    <div class="flex justify-between text-xs font-semibold text-slate-400">
+                        <span>Subtotal</span>
+                        <span x-text="'R$ ' + basePrice.toFixed(2).replace('.', ',')">R$ 37,90</span>
+                    </div>
+                    <div x-show="orderBump" class="flex justify-between text-xs font-semibold text-slate-400" x-transition>
+                        <span>Upgrade: Hiperfoco Noturno</span>
+                        <span x-text="'R$ ' + bumpPrice.toFixed(2).replace('.', ',')">R$ 14,90</span>
+                    </div>
+                    <div class="border-t border-indigo-950 pt-3 flex justify-between items-center">
+                        <span class="text-xs font-bold text-white">Valor Total</span>
+                        <span class="text-xl font-black text-apricot font-mono" x-text="formatTotal()">R$ 37,90</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Depoimento Rápido no Checkout (Reforço Psicológico) -->
+            <div class="bg-slate-950 rounded-2xl p-4 border border-indigo-950/60 text-xs italic text-slate-300 relative">
+                <p>"Comprei pelo PIX e recebi em 1 minuto. O método de organização visual é sensacional, salvou a minha produtividade profissional esta semana!"</p>
+                <span class="block text-right font-bold text-indigo-400 not-italic mt-2">- Juliana M., Gestora de Projetos</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- OVERLAY DE PROCESSAMENTO DE PAGAMENTO (Simulação) -->
+    <div x-show="processing" class="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-4" style="display: none;">
+        <div class="text-center space-y-6 max-w-xs">
+            <div class="w-16 h-16 border-4 border-t-apricot border-indigo-950 rounded-full animate-spin mx-auto"></div>
+            <div class="space-y-2">
+                <h3 class="text-lg font-bold text-white" x-text="processingStep">Processando transação segura...</h3>
+                <p class="text-xs text-slate-400">Não feche esta página. Criptografia SSL ativa de alta velocidade.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DE SUCESSO (Simulador de Pós-Venda Incrível) -->
+    <div x-show="success" class="fixed inset-0 bg-sand z-50 overflow-y-auto" style="display: none;">
+        <div class="max-w-xl mx-auto px-4 py-12 sm:py-20 flex flex-col items-center justify-center min-h-screen text-center space-y-6">
+            
+            <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center border border-emerald-500/30">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+
+            <div class="space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Pedido Realizado com Sucesso!</h2>
+                <p class="text-xs sm:text-sm text-slate-400 max-w-sm mx-auto">
+                    Parabéns por escolher o caminho do foco orgânico. Siga os passos indicados para acessar o material.
+                </p>
+            </div>
+
+            <!-- Caso PIX Selecionado -->
+            <div x-show="paymentMethod === 'pix'" class="w-full bg-sand-light border border-indigo-950 rounded-3xl p-6 space-y-4">
+                <h3 class="text-xs font-black uppercase tracking-widest text-apricot">Pague via PIX para Liberação Imediata</h3>
+                
+                <!-- QR Code Simulado -->
+                <div class="bg-white p-3 rounded-2xl w-max mx-auto shadow-lg">
+                    <!-- SVG para gerar QR Code de visualização limpa -->
+                    <svg class="w-36 h-36 sm:w-44 sm:h-44 text-slate-950" viewBox="0 0 100 100">
+                        <rect width="100" height="100" fill="white" />
+                        <!-- Padrão abstrato simulando um QR Code real -->
+                        <path d="M5 5h30v30h-30zM55 5h35v35h-35zM5 55h35v35h-35z" fill="currentColor"/>
+                        <path d="M15 15h10v10h-10zM65 15h15v15h-15zM15 65h15v15h-10z" fill="white"/>
+                        <path d="M40 10h10v10h-10zM10 40h10v10h-10zM45 45h10v10h-10zM70 70h20v20h-20zM55 55h10v15h-10zM80 55h10v10h-10z" fill="currentColor"/>
+                    </svg>
+                </div>
+
+                <div class="space-y-3">
+                    <p class="text-xs text-indigo-300">Copie o código Copia e Cola abaixo e cole na área de pagamento PIX do seu aplicativo bancário.</p>
+                    
+                    <!-- Campo de texto do Copia e Cola -->
+                    <div class="flex items-center gap-2 bg-slate-900 border border-indigo-950 px-3 py-2.5 rounded-xl">
+                        <input type="text" readonly :value="pixCode" class="bg-transparent text-[10px] text-slate-200 flex-1 select-all outline-none">
+                        <button @click="copyPixCode()" class="bg-apricot hover:bg-apricot-dark text-white text-[10px] font-black px-3 py-1.5 rounded-lg whitespace-nowrap">
+                            Copiar Código
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border-t border-indigo-950 pt-4 flex items-center justify-center gap-2 text-xs text-emerald-400 font-bold">
+                    <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>Aguardando confirmação do pagamento...</span>
+                </div>
+            </div>
+
+            <!-- Caso Cartão ou Boleto -->
+            <div x-show="paymentMethod !== 'pix'" class="w-full bg-sand-light border border-indigo-950 rounded-3xl p-6 space-y-4">
+                <div class="space-y-1">
+                    <span class="text-xs text-indigo-300 block">E-mail de envio do acesso:</span>
+                    <strong class="text-sm text-white" x-text="formData.email"></strong>
+                </div>
+
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Se você pagou no **Cartão**, o envio de acesso é instantâneo. Verifique suas abas de Entrada, Promoções e Caixa de Spam nos próximos 5 minutos.<br>
+                    Se escolheu **Boleto**, as instruções de faturamento foram enviadas por e-mail e o envio final ocorre na compensação do pagamento.
+                </p>
+            </div>
+
+            <button type="button" @click="resetCheckout()" class="text-xs text-slate-400 font-bold hover:underline">
+                « Voltar para o Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST DE SUCESSO (Cópia de Pix) -->
+    <div x-show="toastShow" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-4" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-indigo-950 border border-apricot rounded-full px-5 py-2.5 shadow-2xl text-xs text-white font-bold flex items-center gap-2 whitespace-nowrap" style="display: none;">
+        <span class="text-emerald-400">✓</span>
+        <span>Código Copia e Cola copiado com sucesso!</span>
+    </div>
+
+    <!-- Rodapé de Checkout Seguro -->
+    <footer class="bg-sand text-slate-500 py-8 px-4 text-center border-t border-indigo-950/40 text-[10px] space-y-3">
+        <p>Este checkout é monitorado, auditado e totalmente criptografado de ponta a ponta.</p>
+        <p>&copy; 2026 NeuroFlow &amp; Cognitiva Lab • CNPJ: 45.284.148/0001-90</p>
+    </footer>
+
+    <!-- LÓGICA DE PROGRAMAÇÃO REATIVA DO CHECKOUT -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('checkoutApp', () => ({
+                step: 1,
+                paymentMethod: 'pix',
+                orderBump: false,
+                processing: false,
+                processingStep: '',
+                success: false,
+                toastShow: false,
+
+                // Temporizador
+                minutes: '09',
+                seconds: '59',
+                duration: 10 * 60,
+
+                // Configuração de Preço Base
+                basePrice: 37.90,
+                bumpPrice: 14.90,
+
+                // Dados de Entrada dos Formulários
+                formData: {
+                    name: '',
+                    email: '',
+                    cpf: '',
+                    phone: ''
+                },
+                errors: {
+                    name: '',
+                    email: '',
+                    cpf: '',
+                    phone: ''
+                },
+
+                // Dados do Cartão
+                cardData: {
+                    number: '',
+                    name: '',
+                    expiry: '',
+                    cvv: ''
+                },
+                cardErrors: {
+                    number: '',
+                    name: '',
+                    expiry: '',
+                    cvv: ''
+                },
+                cardFlipped: false,
+                installments: 1,
+
+                // Chave de pagamento Pix Simulada
+                pixCode: '00020101021226830014br.gov.bcb.pix2561api.itau.com.br/qr/v2/neuroflow3790pix9482710492817349208173',
+
+                init() {
+                    this.startCountdown();
+                },
+
+                startCountdown() {
+                    let timer = this.duration, mins, secs;
+                    setInterval(() => {
+                        mins = parseInt(timer / 60, 10);
+                        secs = parseInt(timer % 60, 10);
+
+                        this.minutes = mins < 10 ? "0" + mins : String(mins);
+                        this.seconds = secs < 10 ? "0" + secs : String(secs);
+
+                        if (--timer < 0) {
+                            timer = this.duration; // reinicializa temporizador de segurança
+                        }
+                    }, 1000);
+                },
+
+                // Máscaras de Digitação
+                maskCPF(e) {
+                    let value = e.target.value.replace(/\D/g, "");
+                    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                    this.formData.cpf = value;
+                },
+
+                maskPhone(e) {
+                    let value = e.target.value.replace(/\D/g, "");
+                    value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
+                    value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+                    this.formData.phone = value;
+                },
+
+                maskCardNumber(e) {
+                    let value = e.target.value.replace(/\D/g, "");
+                    value = value.replace(/(\d{4})(\d)/g, "$1 $2");
+                    this.cardData.number = value;
+                },
+
+                maskExpiry(e) {
+                    let value = e.target.value.replace(/\D/g, "");
+                    value = value.replace(/(\d{2})(\d)/g, "$1/$2");
+                    this.cardData.expiry = value;
+                },
+
+                // Valida o primeiro dígito para estimar bandeira (Visa / Mastercard)
+                cardType() {
+                    const cleanNum = this.cardData.number.replace(/\s+/g, '');
+                    if (cleanNum.startsWith('4')) return 'visa';
+                    if (cleanNum.startsWith('5')) return 'master';
+                    return 'unknown';
+                },
+
+                formatCardNum(num) {
+                    return num;
+                },
+
+                // Validação de Formulário - Passo 1
+                validateStep1() {
+                    let isValid = true;
+                    this.errors = { name: '', email: '', cpf: '', phone: '' };
+
+                    if (!this.formData.name.trim()) {
+                        this.errors.name = 'Nome completo é obrigatório.';
+                        isValid = false;
+                    }
+
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!this.formData.email.trim() || !emailRegex.test(this.formData.email)) {
+                        this.errors.email = 'Insira um e-mail de envio válido.';
+                        isValid = false;
+                    }
+
+                    if (this.formData.cpf.length < 14) {
+                        this.errors.cpf = 'Insira um CPF completo.';
+                        isValid = false;
+                    }
+
+                    if (this.formData.phone.length < 14) {
+                        this.errors.phone = 'Insira um WhatsApp válido com DDD.';
+                        isValid = false;
+                    }
+
+                    return isValid;
+                },
+
+                goToStep2() {
+                    if (this.validateStep1()) {
+                        this.step = 2;
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                },
+
+                // Cálculo Dinâmico de Valores
+                getTotalPrice() {
+                    return this.orderBump ? (this.basePrice + this.bumpPrice) : this.basePrice;
+                },
+
+                formatTotal() {
+                    const price = this.getTotalPrice();
+                    return 'R$ ' + price.toFixed(2).replace('.', ',');
+                },
+
+                formatInstallment(i) {
+                    const total = this.getTotalPrice();
+                    const value = total / i;
+                    if (i === 1) {
+                        return `1x de R$ ${total.toFixed(2).replace('.', ',')} (Sem juros)`;
+                    }
+                    return `${i}x de R$ ${value.toFixed(2).replace('.', ',')} (Sem juros)`;
+                },
+
+                getSubmitBtnText() {
+                    const formatted = this.formatTotal();
+                    return `COMPRAR AGORA POR ${formatted}`;
+                },
+
+                // Validação e Processamento de Compra
+                submitPayment() {
+                    if (this.paymentMethod === 'card') {
+                        let isCardValid = true;
+                        this.cardErrors = { number: '', name: '', expiry: '', cvv: '' };
+
+                        if (this.cardData.number.length < 19) {
+                            this.cardErrors.number = 'Número de cartão inválido.';
+                            isCardValid = false;
+                        }
+                        if (!this.cardData.name.trim()) {
+                            this.cardErrors.name = 'Nome do titular é obrigatório.';
+                            isCardValid = false;
+                        }
+                        if (this.cardData.expiry.length < 5) {
+                            this.cardErrors.expiry = 'Validade incorreta.';
+                            isCardValid = false;
+                        }
+                        if (this.cardData.cvv.length < 3) {
+                            this.cardErrors.cvv = 'CVV inválido.';
+                            isCardValid = false;
+                        }
+
+                        if (!isCardValid) return;
+                    }
+
+                    // Dispara animação simulada de faturamento e redirecionamento seguro
+                    this.processing = true;
+                    
+                    const steps = [
+                        'Criptografando dados pessoais...',
+                        'Estabelecendo conexão segura com gateway bancário...',
+                        'Validando autenticidade de faturamento...',
+                        'Finalizando liberação do seu acesso digital...'
+                    ];
+
+                    let currentStepIndex = 0;
+                    this.processingStep = steps[currentStepIndex];
+
+                    const interval = setInterval(() => {
+                        currentStepIndex++;
+                        if (currentStepIndex < steps.length) {
+                            this.processingStep = steps[currentStepIndex];
+                        } else {
+                            clearInterval(interval);
+                            this.processing = false;
+                            this.success = true;
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                    }, 1200);
+                },
+
+                copyPixCode() {
+                    const tempInput = document.createElement("input");
+                    tempInput.value = this.pixCode;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(tempInput);
+                    
+                    this.toastShow = true;
+                    setTimeout(() => {
+                        this.toastShow = false;
+                    }, 3000);
+                },
+
+                resetCheckout() {
+                    this.success = false;
+                    this.step = 1;
+                    this.orderBump = false;
+                }
+            }));
+        });
+    </script>
+</body>
+</html>
